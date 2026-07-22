@@ -1,99 +1,112 @@
-// ================================
-// Stella Lake Report Gen 2
-// ================================
+// ===================================
+// 🌊 Stella Lake Report - Gen 2
+// ===================================
 
 
-// Weather API setup
-// We will add your API key here later
-const API_KEY = "d9b4edff8277d8748c979ece77088259";
+// ThingSpeak Setup
+const CHANNEL_ID = "3432049";
 
+
+// Stella Lake Coordinates
 const LAT = 45.7955;
 const LON = -89.1615;
 
 
 
-// ================================
-// LIVE WEATHER
-// ================================
+// ===================================
+// LOAD LIVE DATA
+// ===================================
 
 async function getWeather(){
 
-if(API_KEY === "YOUR_API_KEY"){
-
-document.getElementById("weatherStatus").innerHTML =
-"⚠️ Add weather API key first";
-
-return;
-
-}
+try{
 
 
-try {
+// -------- ThingSpeak Data --------
 
-let url =
-`https://api.openweathermap.org/data/2.5/weather?lat=${LAT}&lon=${LON}&units=imperial&appid=${API_KEY}`;
+let lakeResponse = await fetch(
+`https://api.thingspeak.com/channels/${CHANNEL_ID}/feeds/last.json`
+);
 
-
-let response = await fetch(url);
-
-let data = await response.json();
+let lakeData = await lakeResponse.json();
 
 
+let airTemp = Math.round(Number(lakeData.field2));
+let waterTemp = Math.round(Number(lakeData.field3));
 
-document.getElementById("airTemp").value =
-Math.round(data.main.temp);
+
+document.getElementById("airTemp").value = airTemp;
+document.getElementById("waterTemp").value = waterTemp;
+
+
+
+// -------- Weather Data --------
+
+let weatherResponse = await fetch(
+`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=wind_speed_10m,wind_gusts_10m,cloud_cover,precipitation_probability&temperature_unit=fahrenheit&wind_speed_unit=mph`
+);
+
+
+let weather = await weatherResponse.json();
+
 
 
 document.getElementById("windSpeed").value =
-Math.round(data.wind.speed);
+Math.round(weather.current.wind_speed_10m);
 
 
 document.getElementById("gusts").value =
-Math.round(data.wind.gust || data.wind.speed);
+Math.round(weather.current.wind_gusts_10m);
 
 
 document.getElementById("clouds").value =
-data.clouds.all;
+weather.current.cloud_cover;
 
 
 document.getElementById("rain").value =
-data.rain ? 100 : 0;
+weather.current.precipitation_probability;
 
 
 
 document.getElementById("weatherStatus").innerHTML =
-"✅ Weather Updated";
+"✅ Live Stella Lake Data Loaded";
 
 
 }
+
 
 catch(error){
 
+console.log(error);
+
 document.getElementById("weatherStatus").innerHTML =
-"❌ Weather failed";
+"❌ Data Loading Failed";
 
 }
 
+
 }
 
 
 
-// ================================
-// SCORE FUNCTIONS
-// ================================
+
+// ===================================
+// SCORING FUNCTIONS
+// ===================================
 
 
-function rangeScore(value, perfectMin, perfectMax, badMin, badMax){
+function tempScore(value,minGood,maxGood,minBad,maxBad){
 
-if(value >= perfectMin && value <= perfectMax)
+if(value >= minGood && value <= maxGood){
 return 100;
+}
 
 
-if(value < perfectMin){
+if(value < minGood){
 
 return Math.max(
 0,
-100 - ((perfectMin-value)/(perfectMin-badMin))*100
+100 - ((minGood-value)/(minGood-minBad))*100
 );
 
 }
@@ -101,24 +114,27 @@ return Math.max(
 
 return Math.max(
 0,
-100 - ((value-perfectMax)/(badMax-perfectMax))*100
+100 - ((value-maxGood)/(maxBad-maxGood))*100
 );
 
 }
 
 
 
-// Wind score for riding
-function windScore(wind){
+function ridingWindScore(wind){
+
 
 if(wind <= 5)
 return 100;
 
+
 if(wind <= 10)
-return 90;
+return 85;
+
 
 if(wind <= 15)
 return 60;
+
 
 return 25;
 
@@ -126,9 +142,9 @@ return 25;
 
 
 
-// ================================
-// CALCULATE
-// ================================
+// ===================================
+// CALCULATE LAKE SCORE
+// ===================================
 
 
 function calculate(){
@@ -155,88 +171,86 @@ Number(document.getElementById("rain").value);
 
 
 
-// Weather score
-
-let weather =
-100 - (clouds*.4) - (rain*.8);
-
-weather=Math.max(0,weather);
+let windScore =
+ridingWindScore(wind);
 
 
-
-// Temperature scores
 
 let waterScore =
-rangeScore(water,75,82,50,90);
+tempScore(water,75,82,50,95);
+
 
 
 let airScore =
-rangeScore(air,75,85,40,100);
+tempScore(air,75,85,40,105);
 
 
 
-let windRide =
-windScore(wind);
+// Weather score
+
+let weatherScore =
+100 - (clouds*.4) - (rain*.6);
+
+weatherScore =
+Math.max(0,weatherScore);
 
 
 
-// ================================
-// ACTIVITIES
-// ================================
+
+// -------- Activities --------
 
 
 // Wakeboard
-let wake =
+let wakeboard =
 (
-windRide*.40+
-waterScore*.25+
-airScore*.25+
-weather*.10
+windScore*.40 +
+waterScore*.25 +
+airScore*.25 +
+weatherScore*.10
 );
 
 
 // Wakesurf
-let surf =
+let wakesurf =
 (
-windRide*.30+
-waterScore*.30+
-airScore*.30+
-weather*.10
+windScore*.30 +
+waterScore*.30 +
+airScore*.30 +
+weatherScore*.10
 );
 
 
 // Ski
 let ski =
 (
-windRide*.40+
-waterScore*.25+
-airScore*.25+
-weather*.10
+windScore*.40 +
+waterScore*.25 +
+airScore*.25 +
+weatherScore*.10
 );
 
 
-
 // Tube
-let tubeWind;
 
-if(wind >= 5 && wind <= 15)
-tubeWind=100;
-else
-tubeWind=70;
+let tubeWind = 70;
+
+if(wind >=5 && wind <=15){
+tubeWind = 100;
+}
 
 
 let tube =
 (
-tubeWind*.10+
-waterScore*.30+
-airScore*.40+
-weather*.20
+tubeWind*.10 +
+waterScore*.30 +
+airScore*.40 +
+weatherScore*.20
 );
 
 
 
-wake=Math.round(wake);
-surf=Math.round(surf);
+wakeboard=Math.round(wakeboard);
+wakesurf=Math.round(wakesurf);
 ski=Math.round(ski);
 tube=Math.round(tube);
 
@@ -244,24 +258,28 @@ tube=Math.round(tube);
 
 let overall =
 Math.round(
-(wake+surf+ski+tube)/4
+(wakeboard+wakesurf+ski+tube)/4
 );
 
 
 
-// ================================
-// DISPLAY
-// ================================
+
+// ===================================
+// DISPLAY RESULTS
+// ===================================
 
 
 document.getElementById("wakeboard").innerHTML =
-wake+"/100";
+wakeboard+"/100";
+
 
 document.getElementById("surf").innerHTML =
-surf+"/100";
+wakesurf+"/100";
+
 
 document.getElementById("ski").innerHTML =
 ski+"/100";
+
 
 document.getElementById("tube").innerHTML =
 tube+"/100";
@@ -272,29 +290,31 @@ overall+"/100";
 
 
 
-// Description
 
-let description;
+// Rating
+
+let text;
 
 
-if(overall>=95)
-description="🔥 Legendary Lake Day";
+if(overall >=95)
+text="🔥 Legendary Lake Day";
 
 else if(overall>=85)
-description="🚤 Excellent Conditions";
+text="🚤 Excellent Conditions";
 
 else if(overall>=70)
-description="😎 Good Lake Day";
+text="😎 Good Lake Day";
 
 else if(overall>=50)
-description="🙂 Average Conditions";
+text="🙂 Average Day";
 
 else
-description="🌧️ Stay Home";
+text="🌧️ Poor Conditions";
 
 
 document.getElementById("description").innerHTML =
-description;
+text;
+
 
 
 
@@ -302,9 +322,9 @@ description;
 
 let activities = {
 
-"🏄 Wakeboard":wake,
+"🏄 Wakeboard":wakeboard,
 
-"🌊 Wakesurf":surf,
+"🌊 Wakesurf":wakesurf,
 
 "🎿 Ski":ski,
 
@@ -314,14 +334,15 @@ let activities = {
 
 
 let winner =
-Object.keys(activities)
-.reduce((a,b)=>
-activities[a]>activities[b]?a:b);
-
+Object.keys(activities).reduce(
+(a,b)=>
+activities[a]>activities[b]?a:b
+);
 
 
 document.getElementById("winner").innerHTML =
 winner;
+
 
 
 
@@ -334,10 +355,10 @@ document.getElementById("boat").innerHTML =
 
 }
 
-else {
+else{
 
 document.getElementById("boat").innerHTML =
-"Maybe wait — conditions could be better.";
+"Wait for better conditions.";
 
 }
 
@@ -346,12 +367,17 @@ document.getElementById("boat").innerHTML =
 
 
 
-// ================================
+// ===================================
 // SAVE LAKE DAY
-// ================================
+// ===================================
 
 
 function saveDay(){
+
+
+let today =
+new Date().toLocaleDateString();
+
 
 let score =
 document.getElementById("overall").innerHTML;
@@ -359,11 +385,12 @@ document.getElementById("overall").innerHTML;
 
 localStorage.setItem(
 "lastLakeDay",
-score
+today+" - "+score
 );
 
 
 document.getElementById("saved").innerHTML =
-"✅ Saved Lake Day: "+score;
+"✅ Saved: "+today+" "+score;
+
 
 }
