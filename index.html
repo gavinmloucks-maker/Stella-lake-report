@@ -1,63 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stella Lake Report</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+<title>Stella Lake Report</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
 
 <div class="container">
 
-    <h1>🌊 Stella Lake Report</h1>
+<h1>🌊 Stella Lake Report</h1>
 
-    <div class="card">
+<div class="card">
 
-        <h2>Today's Conditions</h2>
+<h2>Today's Conditions</h2>
 
-        <label>Air Temperature (°F)</label>
-        <input type="number" id="airTemp" value="80">
+<button onclick="getWeather()">🌤️ Update Weather</button>
 
-        <label>Feels Like (°F)</label>
-        <input type="number" id="feelsLike" value="83">
+<p id="weatherStatus">Weather not loaded</p>
 
-        <label>Water Temperature (°F)</label>
-        <input type="number" id="waterTemp" value="74">
+<label>🌊 Water Temperature (°F)</label>
+<input id="waterTemp" type="number" value="75">
 
-        <label>Wind Speed (mph)</label>
-        <input type="number" id="windSpeed" value="5">
 
-        <label>Wind Gusts (mph)</label>
-        <input type="number" id="gusts" value="8">
+<label>🌡️ Air Temperature (°F)</label>
+<input id="airTemp" type="number" value="80">
 
-        <label>Cloud Cover (%)</label>
-        <input type="number" id="clouds" value="20">
 
-        <label>Chance of Rain (%)</label>
-        <input type="number" id="rain" value="10">
+<label>💨 Wind Speed (mph)</label>
+<input id="windSpeed" type="number" value="5">
 
-        <button onclick="calculate()">Calculate Lake Score</button>
 
-    </div>
+<label>💨 Wind Gusts (mph)</label>
+<input id="gusts" type="number" value="8">
 
-    <div class="card">
 
-        <h2>Results</h2>
+<label>☁️ Cloud Cover (%)</label>
+<input id="clouds" type="number" value="20">
 
-        <h1 id="overall">--</h1>
 
-        <p>🏄 Wakeboard: <span id="wakeboard">--</span></p>
-        <p>🌊 Wakesurf: <span id="surf">--</span></p>
-        <p>🎿 Ski: <span id="ski">--</span></p>
-        <p>🛟 Tube: <span id="tube">--</span></p>
+<label>🌧️ Rain Chance (%)</label>
+<input id="rain" type="number" value="0">
 
-    </div>
+
+<button onclick="calculate()">🚤 Calculate Lake Score</button>
 
 </div>
+
+
+<div class="card results">
+
+<h2>Lake Rating</h2>
+
+<h1 id="overall">--</h1>
+
+<h2 id="description"></h2>
+
+
+<h2>🏆 Best Activity</h2>
+
+<h1 id="winner">--</h1>
+
+
+<p>🏄 Wakeboard:
+<span id="wakeboard">--</span>
+</p>
+
+
+<p>🌊 Wakesurf:
+<span id="surf">--</span>
+</p>
+
+
+<p>🎿 Ski:
+<span id="ski">--</span>
+</p>
+
+
+<p>🛟 Tube:
+<span id="tube">--</span>
+</p>
+
+
+<h2>🚤 Boat Recommendation</h2>
+
+<p id="boat">--</p>
+
+
+</div>
+
+
+<div class="card">
+
+<h2>📖 Lake Day Log</h2>
+
+<button onclick="saveDay()">Save This Day</button>
+
+<p id="saved"></p>
+
+</div>
+
+
+</div>
+
 
 <script src="script.js"></script>
 
 </body>
+
 </html>
