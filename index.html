@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stella Lake Report</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🌊 Stella Lake Report</h1>
+
+    <div class="card">
+
+        <h2>Today's Conditions</h2>
+
+        <label>Air Temperature (°F)</label>
+        <input type="number" id="airTemp" value="80">
+
+        <label>Feels Like (°F)</label>
+        <input type="number" id="feelsLike" value="83">
+
+        <label>Water Temperature (°F)</label>
+        <input type="number" id="waterTemp" value="74">
+
+        <label>Wind Speed (mph)</label>
+        <input type="number" id="windSpeed" value="5">
+
+        <label>Wind Gusts (mph)</label>
+        <input type="number" id="gusts" value="8">
+
+        <label>Cloud Cover (%)</label>
+        <input type="number" id="clouds" value="20">
+
+        <label>Chance of Rain (%)</label>
+        <input type="number" id="rain" value="10">
+
+        <button onclick="calculate()">Calculate Lake Score</button>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Results</h2>
+
+        <h1 id="overall">--</h1>
+
+        <p>🏄 Wakeboard: <span id="wakeboard">--</span></p>
+        <p>🌊 Wakesurf: <span id="surf">--</span></p>
+        <p>🎿 Ski: <span id="ski">--</span></p>
+        <p>🛟 Tube: <span id="tube">--</span></p>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
