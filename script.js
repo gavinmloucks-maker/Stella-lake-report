@@ -5,7 +5,7 @@
 
 // Weather API setup
 // We will add your API key here later
-const API_KEY = "YOUR_API_KEY";
+const API_KEY = "d9b4edff8277d8748c979ece77088259";
 
 const LAT = 45.7955;
 const LON = -89.1615;
