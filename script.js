@@ -34,7 +34,7 @@ rain: 0
 
 
 async function loadData(){
-
+alert("Button works");
 
 try{
 
