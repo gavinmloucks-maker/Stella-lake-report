@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,106 +12,284 @@
 
 </head>
 
+
 <body>
+
 
 <div class="container">
 
+
 <h1>🌊 Stella Lake Report</h1>
+
+<p class="subtitle">
+Live lake conditions for Three Lakes, WI
+</p>
+
+
 
 <div class="card">
 
-<h2>Today's Conditions</h2>
+<h2>📡 Live Conditions</h2>
 
-<button onclick="getWeather()">🌤️ Update Weather</button>
-
-<p id="weatherStatus">Weather not loaded</p>
-
-<label>🌊 Water Temperature (°F)</label>
-<input id="waterTemp" type="number" value="75">
+<button onclick="loadData()">
+🌤️ Update Stella Lake
+</button>
 
 
-<label>🌡️ Air Temperature (°F)</label>
-<input id="airTemp" type="number" value="80">
+<p id="status">
+Waiting for update...
+</p>
 
 
-<label>💨 Wind Speed (mph)</label>
-<input id="windSpeed" type="number" value="5">
+<div class="conditions">
+
+<p>
+🌡️ Air:
+<span id="airDisplay">--</span>
+</p>
 
 
-<label>💨 Wind Gusts (mph)</label>
-<input id="gusts" type="number" value="8">
+<p>
+🌊 Water:
+<span id="waterDisplay">--</span>
+</p>
 
 
-<label>☁️ Cloud Cover (%)</label>
-<input id="clouds" type="number" value="20">
+<p>
+💨 Wind:
+<span id="windDisplay">--</span>
+</p>
 
 
-<label>🌧️ Rain Chance (%)</label>
-<input id="rain" type="number" value="0">
+<p>
+☁️ Clouds:
+<span id="cloudDisplay">--</span>
+</p>
 
 
-<button onclick="calculate()">🚤 Calculate Lake Score</button>
+<p>
+🌧️ Rain:
+<span id="rainDisplay">--</span>
+</p>
+
+
+</div>
 
 </div>
 
 
-<div class="card results">
 
-<h2>Lake Rating</h2>
 
-<h1 id="overall">--</h1>
 
-<h2 id="description"></h2>
+<div class="card scoreCard">
+
+
+<h2>🌊 Lake Day Meter</h2>
+
+
+<div id="overallScore">
+--
+</div>
+
+
+<h3 id="lakeRating">
+Waiting...
+</h3>
+
+
+<p id="lakePersonality">
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="card">
 
 
 <h2>🏆 Best Activity</h2>
 
-<h1 id="winner">--</h1>
+
+<h1 id="winner">
+--
+</h1>
 
 
-<p>🏄 Wakeboard:
-<span id="wakeboard">--</span>
+<p id="winnerReason">
 </p>
-
-
-<p>🌊 Wakesurf:
-<span id="surf">--</span>
-</p>
-
-
-<p>🎿 Ski:
-<span id="ski">--</span>
-</p>
-
-
-<p>🛟 Tube:
-<span id="tube">--</span>
-</p>
-
-
-<h2>🚤 Boat Recommendation</h2>
-
-<p id="boat">--</p>
 
 
 </div>
+
+
+
 
 
 <div class="card">
 
-<h2>📖 Lake Day Log</h2>
 
-<button onclick="saveDay()">Save This Day</button>
+<h2>🏄 Activity Scores</h2>
 
-<p id="saved"></p>
+
+<div class="activity">
+
+<p>
+🏄 Wakeboard
+<span id="wakeboardScore">
+--
+</span>
+</p>
+
+<p id="wakeboardReason"></p>
+
+
+</div>
+
+
+
+<div class="activity">
+
+<p>
+🌊 Wakesurf
+<span id="surfScore">
+--
+</span>
+</p>
+
+<p id="surfReason"></p>
+
+
+</div>
+
+
+
+
+<div class="activity">
+
+<p>
+🎿 Ski
+<span id="skiScore">
+--
+</span>
+</p>
+
+<p id="skiReason"></p>
+
+
+</div>
+
+
+
+
+
+<div class="activity">
+
+<p>
+🛟 Tube
+<span id="tubeScore">
+--
+</span>
+</p>
+
+<p id="tubeReason"></p>
+
 
 </div>
 
 
 </div>
+
+
+
+
+
+
+<div class="card">
+
+
+<h2>🚤 Boat Decision</h2>
+
+
+<h1 id="boatDecision">
+--
+</h1>
+
+
+<p id="boatReason">
+</p>
+
+
+</div>
+
+
+
+
+
+
+<div class="card">
+
+
+<h2>🧠 Lake IQ</h2>
+
+
+<p id="lakeIQ">
+</p>
+
+
+</div>
+
+
+
+
+
+
+<div class="card fortune">
+
+
+<h2>🍀 Lake Fortune</h2>
+
+
+<p id="fortune">
+</p>
+
+
+</div>
+
+
+
+
+
+
+<div class="card">
+
+
+<h2>📖 Lake Day Journal</h2>
+
+
+<button onclick="saveLakeDay()">
+Save Today
+</button>
+
+
+<p id="saved">
+</p>
+
+
+</div>
+
+
+
+
+</div>
+
+
 
 
 <script src="script.js"></script>
+
 
 </body>
 
