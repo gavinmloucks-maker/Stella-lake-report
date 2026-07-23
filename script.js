@@ -3,7 +3,7 @@
 // Part 1 - Data + Scoring Engine
 // =======================================
 
-
+alert("Stella script loaded");
 // ThingSpeak
 const CHANNEL_ID = "3432049";
 
