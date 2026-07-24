@@ -2,239 +2,136 @@
     box-sizing: border-box;
 }
 
-
 body {
-
     margin: 0;
-
     font-family: Arial, Helvetica, sans-serif;
-
-    background:
-    linear-gradient(
-        180deg,
-        #0077b6,
-        #0096c7,
-        #90e0ef
-    );
-
+    background: linear-gradient(180deg, #0077b6, #0096c7, #90e0ef);
     color: white;
-
     min-height: 100vh;
-
 }
-
-
 
 .container {
-
     max-width: 520px;
-
     margin: auto;
-
     padding: 20px;
-
 }
 
-
-
-h1,h2,h3 {
-
+h1, h2, h3 {
     text-align: center;
-
 }
-
-
 
 .subtitle {
-
-    text-align:center;
-
-    opacity:.9;
-
-    margin-top:-15px;
-
+    text-align: center;
+    opacity: .9;
+    margin-top: -15px;
 }
-
-
 
 .card {
-
-    background:
-    rgba(255,255,255,.16);
-
-    backdrop-filter:
-    blur(15px);
-
-    border-radius:25px;
-
-    padding:20px;
-
-    margin-bottom:20px;
-
-    box-shadow:
-    0 8px 25px rgba(0,0,0,.15);
-
+    background: rgba(255,255,255,.16);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.15);
 }
-
-
-
 
 .hero {
-
-    text-align:center;
-
-    padding:30px 20px;
-
+    text-align: center;
+    padding: 30px 20px;
 }
-
-
 
 .score {
-
-    font-size:70px;
-
-    font-weight:bold;
-
-    margin:10px;
-
+    font-size: 70px;
+    font-weight: bold;
+    margin: 10px;
 }
-
-
 
 button {
-
-    width:100%;
-
-    padding:15px;
-
-    border:none;
-
-    border-radius:15px;
-
-    background:#023e8a;
-
-    color:white;
-
-    font-size:18px;
-
-    font-weight:bold;
-
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 15px;
+    background: #023e8a;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
 }
-
-
 
 button:active {
-
-    transform:scale(.98);
-
+    transform: scale(.98);
 }
-
-
-
 
 .grid {
-
-    display:grid;
-
-    grid-template-columns:
-    1fr 1fr;
-
-    gap:15px;
-
-    text-align:center;
-
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    text-align: center;
 }
-
-
 
 .grid div {
-
-    background:
-    rgba(255,255,255,.12);
-
-    border-radius:15px;
-
-    padding:15px;
-
+    background: rgba(255,255,255,.12);
+    border-radius: 15px;
+    padding: 15px;
 }
-
-
-
 
 strong {
-
-    float:right;
-
+    float: right;
 }
-
-
 
 #timeline {
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:8px;
-
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
-
-
 
 .time {
-
-    background:
-    rgba(255,255,255,.12);
-
-    border-radius:12px;
-
-    padding:10px;
-
+    background: rgba(255,255,255,.12);
+    border-radius: 12px;
+    padding: 10px;
 }
-
-
 
 .best {
-
-    background:
-    rgba(255,255,255,.35);
-
-    font-weight:bold;
-
+    background: rgba(255,255,255,.35);
+    font-weight: bold;
 }
-
-
 
 .good {
-
-    color:white;
-
+    color: white;
 }
-
-
 
 .warning {
-
-    opacity:.8;
-
+    opacity: .8;
 }
 
+.stars button {
+    width: auto;
+    padding: 8px 14px;
+    margin: 2px;
+    font-size: 16px;
+}
 
+.inline-btn {
+    width: auto;
+    padding: 8px 14px;
+}
 
+#funSlider {
+    width: 100%;
+}
 
-@media(max-width:400px){
+#journalNotes {
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+    font-family: inherit;
+}
 
+@media (max-width: 400px) {
     .container {
-
-        padding:12px;
-
+        padding: 12px;
     }
-
-
     .score {
-
-        font-size:55px;
-
+        font-size: 55px;
     }
-
 }
