@@ -2,19 +2,16 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Stella Lake Report</title>
+<title>Stella Lake Report V2.1</title>
 
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 
 <body>
-
 
 <div class="container">
 
@@ -22,86 +19,48 @@
 <h1>🌊 Stella Lake Report</h1>
 
 <p class="subtitle">
-Live lake conditions for Three Lakes, WI
+Three Lakes, Wisconsin
 </p>
 
 
 
 <div class="card">
 
-<h2>📡 Live Conditions</h2>
-
 <button onclick="loadData()">
-🌤️ Update Stella Lake
+🌤️ Update Lake Report
 </button>
-
 
 <p id="status">
 Waiting for update...
 </p>
 
-
-<div class="conditions">
-
-<p>
-🌡️ Air:
-<span id="airDisplay">--</span>
-</p>
-
-
-<p>
-🌊 Water:
-<span id="waterDisplay">--</span>
-</p>
-
-
-<p>
-💨 Wind:
-<span id="windDisplay">--</span>
-</p>
-
-
-<p>
-☁️ Clouds:
-<span id="cloudDisplay">--</span>
-</p>
-
-
-<p>
-🌧️ Rain:
-<span id="rainDisplay">--</span>
-</p>
-
-
-</div>
-
 </div>
 
 
 
 
 
-<div class="card scoreCard">
+<div class="card hero">
 
+<h2>🌊 Stella Lake Index</h2>
 
-<h2>🌊 Lake Day Meter</h2>
-
-
-<div id="overallScore">
+<div class="score" id="lakeScore">
 --
 </div>
 
 
-<h3 id="lakeRating">
-Waiting...
-</h3>
+<h2 id="lakeMood">
+--
+</h2>
 
 
-<p id="lakePersonality">
+<p id="lakeSummary">
 </p>
 
 
 </div>
+
+
 
 
 
@@ -109,13 +68,163 @@ Waiting...
 
 <div class="card">
 
+<h2>⏰ Best Ride Window</h2>
+
+
+<h3 id="bestTime">
+--
+</h3>
+
+
+<div id="bestReason">
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="card">
+
+<h2>📡 Current Conditions</h2>
+
+
+<div class="grid">
+
+
+<div>
+🌡️ Air
+<h3 id="airDisplay">
+--
+</h3>
+</div>
+
+
+<div>
+🌊 Water
+<h3 id="waterDisplay">
+--
+</h3>
+</div>
+
+
+<div>
+💨 Wind
+<h3 id="windDisplay">
+--
+</h3>
+</div>
+
+
+<div>
+☁️ Clouds
+<h3 id="cloudDisplay">
+--
+</h3>
+</div>
+
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+<div class="card">
+
+<h2>🏄 Activity Scores</h2>
+
+
+<p>
+🏄 Wakeboard:
+<strong id="wakeScore">--</strong>
+</p>
+
+
+<p>
+🌊 Wakesurf:
+<strong id="surfScore">--</strong>
+</p>
+
+
+<p>
+🎿 Ski:
+<strong id="skiScore">--</strong>
+</p>
+
+
+<p>
+🛟 Tube:
+<strong id="tubeScore">--</strong>
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="card">
+
+<h2>📈 Today's Timeline</h2>
+
+<div id="timeline">
+
+Waiting for forecast...
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="card">
+
+<h2>📊 Why Today's Score?</h2>
+
+<p id="factorBreakdown">
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="card">
 
 <h2>🏆 Best Activity</h2>
 
 
-<h1 id="winner">
+<h2 id="winner">
 --
-</h1>
+</h2>
 
 
 <p id="winnerReason">
@@ -128,79 +237,21 @@ Waiting...
 
 
 
+
+
+
+
 <div class="card">
 
+<h2>🧠 Lake IQ</h2>
 
-<h2>🏄 Activity Scores</h2>
-
-
-<div class="activity">
-
-<p>
-🏄 Wakeboard
-<span id="wakeboardScore">
---
-</span>
+<p id="lakeIQ">
 </p>
 
-<p id="wakeboardReason"></p>
-
 
 </div>
 
 
-
-<div class="activity">
-
-<p>
-🌊 Wakesurf
-<span id="surfScore">
---
-</span>
-</p>
-
-<p id="surfReason"></p>
-
-
-</div>
-
-
-
-
-<div class="activity">
-
-<p>
-🎿 Ski
-<span id="skiScore">
---
-</span>
-</p>
-
-<p id="skiReason"></p>
-
-
-</div>
-
-
-
-
-
-<div class="activity">
-
-<p>
-🛟 Tube
-<span id="tubeScore">
---
-</span>
-</p>
-
-<p id="tubeReason"></p>
-
-
-</div>
-
-
-</div>
 
 
 
@@ -209,13 +260,12 @@ Waiting...
 
 <div class="card">
 
+<h2>🚤 Should You Take The Boat?</h2>
 
-<h2>🚤 Boat Decision</h2>
 
-
-<h1 id="boatDecision">
+<h2 id="boatDecision">
 --
-</h1>
+</h2>
 
 
 <p id="boatReason">
@@ -229,28 +279,12 @@ Waiting...
 
 
 
+
+
+
 <div class="card">
 
-
-<h2>🧠 Lake IQ</h2>
-
-
-<p id="lakeIQ">
-</p>
-
-
-</div>
-
-
-
-
-
-
-<div class="card fortune">
-
-
 <h2>🍀 Lake Fortune</h2>
-
 
 <p id="fortune">
 </p>
@@ -263,10 +297,11 @@ Waiting...
 
 
 
+
+
 <div class="card">
 
-
-<h2>📖 Lake Day Journal</h2>
+<h2>📖 Lake Journal</h2>
 
 
 <button onclick="saveLakeDay()">
@@ -283,13 +318,35 @@ Save Today
 
 
 
+
+
+
+
+
+<div class="card">
+
+<h2>🏆 Summer Stats</h2>
+
+
+<p id="stats">
+No saved lake days yet.
+
+</p>
+
+
 </div>
 
 
 
 
-<script src="script.js"></script>
 
+
+
+</div>
+
+
+
+<script src="script.js"></script>
 
 </body>
 
