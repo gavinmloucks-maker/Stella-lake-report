@@ -1,4 +1,3 @@
-alert("App js loaded");
 // 🌊 Stella Lake Report V2.2
 // Main Application Controller
 
