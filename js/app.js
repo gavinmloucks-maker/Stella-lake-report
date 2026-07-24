@@ -186,10 +186,7 @@ function loadData(){
 
 // Automatically load when opened
 
-window.onload=function(){
 
-
-    startLakeReport();
 
 
 };
