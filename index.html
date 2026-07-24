@@ -99,6 +99,30 @@
 <h2>📖 Lake Journal</h2>
 <button onclick="saveToday()">Save Today</button>
 <p id="saved"></p>
+
+<div id="ratingPrompt" style="display:none; margin-top:15px;">
+
+<p>How accurate was today's score?</p>
+<div class="stars">
+<button onclick="rateAccuracy(1)">⭐</button>
+<button onclick="rateAccuracy(2)">⭐⭐</button>
+<button onclick="rateAccuracy(3)">⭐⭐⭐</button>
+<button onclick="rateAccuracy(4)">⭐⭐⭐⭐</button>
+<button onclick="rateAccuracy(5)">⭐⭐⭐⭐⭐</button>
+</div>
+<p id="accuracyConfirm"></p>
+
+<p>How much fun did you actually have?</p>
+<input type="range" id="funSlider" min="0" max="100" value="75"
+    oninput="document.getElementById('funValue').innerHTML=this.value">
+<p><span id="funValue">75</span>/100
+<button class="inline-btn" onclick="rateFun(document.getElementById('funSlider').value)">Save</button></p>
+<p id="funConfirm"></p>
+
+<p>Notes</p>
+<textarea id="journalNotes" rows="3" onchange="saveNotes(this.value)"></textarea>
+
+</div>
 </div>
 
 <div class="card">
@@ -118,7 +142,7 @@
 <script src="js/journal.js"></script>
 <script src="js/analytics.js"></script>
 <script src="js/ui.js"></script>
-<script src="js/app.js"></script>
+<script src="./js/app.js?v=999"></script>
 
 </body>
 </html>
