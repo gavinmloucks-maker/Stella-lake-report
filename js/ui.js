@@ -181,8 +181,7 @@ function updateMessages(data,winner){
 
 
     document.getElementById("fortune").innerHTML =
-
-    getFortune();
+    getRandomFortune();
 
 
 
