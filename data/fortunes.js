@@ -96,7 +96,7 @@ const FORTUNES = [
 
 
 
-function getFortune(){
+function getRandomFortune(){
 
     return FORTUNES[
         Math.floor(
