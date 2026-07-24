@@ -346,7 +346,7 @@ function generateLakeIQ(hour){
 
 
 
-function getFortune(){
+function getRandomFortune(){
 
 
 
