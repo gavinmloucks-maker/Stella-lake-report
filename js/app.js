@@ -129,8 +129,7 @@ async function startLakeReport(){
 
 
         document.getElementById("status").innerHTML =
-
-        "❌ Unable to load data";
+"❌ " + error.message;
 
 
     }
