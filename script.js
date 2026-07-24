@@ -89,13 +89,12 @@ document.getElementById("status").innerHTML =
 
 catch(error){
 
-
 console.log(error);
 
-
 document.getElementById("status").innerHTML =
-"❌ Error loading data";
+"❌ " + error.message;
 
+}
 
 }
 
