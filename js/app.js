@@ -1,8 +1,9 @@
+alert("App js loaded");
 // 🌊 Stella Lake Report V2.2
 // Main Application Controller
 
-alert("App.js loaded");
-console.log("STELLA APP LOADED");
+
+
 
 let lakeData = null;
 
