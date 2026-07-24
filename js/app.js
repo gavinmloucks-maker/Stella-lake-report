@@ -1,7 +1,7 @@
 // 🌊 Stella Lake Report V2.2
 // Main Application Controller
 
-
+alert("App.js loaded");
 
 let lakeData = null;
 
