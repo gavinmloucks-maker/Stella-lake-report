@@ -4,347 +4,109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Stella Lake Report V2.2</title>
-
+<title>Stella AI — Lake Report</title>
 <link rel="stylesheet" href="style.css">
 </head>
-
 
 <body>
 
 <div class="container">
 
+<h1>🌊 Stella AI</h1>
+<p class="subtitle">Three Lakes, Wisconsin</p>
 
-<h1>🌊 Stella Lake Report</h1>
-
-<p class="subtitle">
-Three Lakes, Wisconsin
-</p>
-
-
+<p id="greeting" class="card"></p>
 
 <div class="card">
-
-<button onclick="loadData()">
-Update Lake Report
-</button>
-
-<p id="status">
-Waiting for update...
-</p>
-
+<button onclick="loadData()">Update Lake Report</button>
+<p id="status">Waiting for update...</p>
 </div>
-
-
-
-
 
 <div class="card hero">
-
 <h2>🌊 Stella Lake Index</h2>
-
-<div class="score" id="lakeScore">
---
+<div class="score" id="lakeScore">--</div>
+<h2 id="lakeMood">--</h2>
+<p id="lakeSummary"></p>
 </div>
-
-
-<h2 id="lakeMood">
---
-</h2>
-
-
-<p id="lakeSummary">
-</p>
-
-
-</div>
-
-
-
-
-
-
 
 <div class="card">
-
 <h2>⏰ Best Ride Window</h2>
-
-
-<h3 id="bestTime">
---
-</h3>
-
-
-<div id="bestReason">
+<h3 id="bestTime">--</h3>
+<div id="bestReason"></div>
+<p id="waitMessage"></p>
 </div>
-
-
-</div>
-
-
-
-
-
-
-
 
 <div class="card">
-
 <h2>📡 Current Conditions</h2>
-
-
 <div class="grid">
-
-
-<div>
-🌡️ Air
-<h3 id="airDisplay">
---
-</h3>
+<div>🌡️ Air<h3 id="airDisplay">--</h3></div>
+<div>🌊 Water<h3 id="waterDisplay">--</h3></div>
+<div>💨 Wind<h3 id="windDisplay">--</h3></div>
+<div>☁️ Clouds<h3 id="cloudDisplay">--</h3></div>
+<div>💧 Humidity<h3 id="humidityDisplay">--</h3></div>
+<div>🔆 UV Index<h3 id="uvDisplay">--</h3></div>
 </div>
-
-
-<div>
-🌊 Water
-<h3 id="waterDisplay">
---
-</h3>
 </div>
-
-
-<div>
-💨 Wind
-<h3 id="windDisplay">
---
-</h3>
-</div>
-
-
-<div>
-☁️ Clouds
-<h3 id="cloudDisplay">
---
-</h3>
-</div>
-
-
-</div>
-
-</div>
-
-
-
-
-
-
-
 
 <div class="card">
-
 <h2>🏄 Activity Scores</h2>
-
-
-<p>
-🏄 Wakeboard:
-<strong id="wakeScore">--</strong>
-</p>
-
-
-<p>
-🌊 Wakesurf:
-<strong id="surfScore">--</strong>
-</p>
-
-
-<p>
-🎿 Ski:
-<strong id="skiScore">--</strong>
-</p>
-
-
-<p>
-🛟 Tube:
-<strong id="tubeScore">--</strong>
-</p>
-
-
+<p>🏄 Wakeboard: <strong id="wakeScore">--</strong></p>
+<p>🌊 Wakesurf: <strong id="surfScore">--</strong></p>
+<p>🎿 Ski: <strong id="skiScore">--</strong></p>
+<p>🛟 Tube: <strong id="tubeScore">--</strong></p>
 </div>
 
-
-
-
-
-
-
-
-
 <div class="card">
-
 <h2>📈 Today's Timeline</h2>
-
-<div id="timeline">
-
-Waiting for forecast...
-
+<div id="timeline">Waiting for forecast...</div>
 </div>
-
-
-</div>
-
-
-
-
-
-
-
-
 
 <div class="card">
-
 <h2>📊 Why Today's Score?</h2>
-
-<p id="factorBreakdown">
-</p>
-
-
+<p id="factorBreakdown"></p>
 </div>
 
-
-
-
-
-
-
-
 <div class="card">
-
 <h2>🏆 Best Activity</h2>
-
-
-<h2 id="winner">
---
-</h2>
-
-
-<p id="winnerReason">
-</p>
-
-
+<h2 id="winner">--</h2>
+<p id="winnerReason"></p>
 </div>
 
-
-
-
-
-
-
-
-
 <div class="card">
-
 <h2>🧠 Lake IQ</h2>
-
-<p id="lakeIQ">
-</p>
-
-
+<p id="lakeIQ"></p>
 </div>
 
-
-
-
-
-
-
-
 <div class="card">
-
 <h2>🚤 Should You Take The Boat?</h2>
-
-
-<h2 id="boatDecision">
---
-</h2>
-
-
-<p id="boatReason">
-</p>
-
-
+<h2 id="boatDecision">--</h2>
+<p id="boatReason"></p>
 </div>
 
-
-
-
-
-
-
-
+<div class="card">
+<h2>🌅 Sunset Predictor</h2>
+<h3 id="sunsetTime">--</h3>
+<p id="sunsetScore"></p>
+<p id="sunsetNote"></p>
+</div>
 
 <div class="card">
-
 <h2>🍀 Lake Fortune</h2>
-
-<p id="fortune">
-</p>
-
-
+<p id="fortune"></p>
 </div>
 
-
-
-
-
-
-
-
 <div class="card">
-
 <h2>📖 Lake Journal</h2>
-
-
-<button onclick="saveToday()">
-Save Today
-</button>
-
-
-<p id="saved">
-</p>
-
-
+<button onclick="saveToday()">Save Today</button>
+<p id="saved"></p>
 </div>
-
-
-
-
-
-
-
-
 
 <div class="card">
-
 <h2>🏆 Summer Stats</h2>
-
-
-<p id="stats">
-No saved lake days yet.
-
-</p>
-
-
+<p id="stats">No saved lake days yet.</p>
 </div>
 
-
-
-
-
-
-
 </div>
-
-
 
 <script src="data/fortunes.js"></script>
 <script src="data/messages.js"></script>
@@ -359,5 +121,4 @@ No saved lake days yet.
 <script src="./js/app.js?v=999"></script>
 
 </body>
-
 </html>
