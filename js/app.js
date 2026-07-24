@@ -2,6 +2,7 @@
 // Main Application Controller
 
 alert("App.js loaded");
+console.log("STELLA APP LOADED");
 
 let lakeData = null;
 
