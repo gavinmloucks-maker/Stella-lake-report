@@ -2,10 +2,6 @@
     box-sizing: border-box;
 }
 
-html, body {
-    height: 100%;
-}
-
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
@@ -196,23 +192,31 @@ strong {
     opacity: 1;
 }
 
-.theme-blue {
+html.theme-blue body {
     background: linear-gradient(180deg, #0077b6, #0096c7, #90e0ef);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 .theme-blue button { background: #023e8a; }
 
-.theme-sunset {
+html.theme-sunset body {
     background: linear-gradient(180deg, #ff6b35, #f7931e, #ffd166);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 .theme-sunset button { background: #c1440e; }
 
-.theme-purple {
+html.theme-purple body {
     background: linear-gradient(180deg, #3a0ca3, #7209b7, #b5179e);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 .theme-purple button { background: #3a0ca3; }
 
-.theme-forest {
+html.theme-forest body {
     background: linear-gradient(180deg, #1b4332, #2d6a4f, #74c69d);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 .theme-forest button { background: #1b4332; }
 
