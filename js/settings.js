@@ -78,9 +78,6 @@ function saveUserSettings() {
     }));
 }
 
-// Theme class lives on <html>, not <body> — this is what lets the
-// background paint under the iOS notch/status bar and during
-// overscroll instead of showing white there.
 function applyTheme(theme) {
     document.documentElement.className = "theme-" + theme;
 
