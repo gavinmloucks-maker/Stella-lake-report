@@ -150,4 +150,6 @@ function renderTimeline(hours, activity) {
         else if (rank <= 2) tierClass = "tier-2";
         else if (rank <= 4) tierClass = "tier-3";
 
-        return `<div class="time${tierClass ? " " + tierClass : ""}">${formatLakeTime(h.time)} — ${h.score} ${h.stars}
+        return `<div class="time${tierClass ? " " + tierClass : ""}">${formatLakeTime(h.time)} — ${h.score} ${h.stars}</div>`;
+    }).join("");
+}
