@@ -2,6 +2,10 @@
     box-sizing: border-box;
 }
 
+html, body {
+    height: 100%;
+}
+
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
@@ -186,29 +190,29 @@ strong {
     opacity: 1;
 }
 
-body.theme-blue {
+.theme-blue {
     background: linear-gradient(180deg, #0077b6, #0096c7, #90e0ef);
 }
-body.theme-blue button { background: #023e8a; }
-body.theme-blue .dayToggle button.active { background: #0096c7; }
+.theme-blue button { background: #023e8a; }
+.theme-blue .dayToggle button.active { background: #0096c7; }
 
-body.theme-sunset {
+.theme-sunset {
     background: linear-gradient(180deg, #ff6b35, #f7931e, #ffd166);
 }
-body.theme-sunset button { background: #c1440e; }
-body.theme-sunset .dayToggle button.active { background: #f7931e; }
+.theme-sunset button { background: #c1440e; }
+.theme-sunset .dayToggle button.active { background: #f7931e; }
 
-body.theme-purple {
+.theme-purple {
     background: linear-gradient(180deg, #3a0ca3, #7209b7, #b5179e);
 }
-body.theme-purple button { background: #3a0ca3; }
-body.theme-purple .dayToggle button.active { background: #7209b7; }
+.theme-purple button { background: #3a0ca3; }
+.theme-purple .dayToggle button.active { background: #7209b7; }
 
-body.theme-forest {
+.theme-forest {
     background: linear-gradient(180deg, #1b4332, #2d6a4f, #74c69d);
 }
-body.theme-forest button { background: #1b4332; }
-body.theme-forest .dayToggle button.active { background: #2d6a4f; }
+.theme-forest button { background: #1b4332; }
+.theme-forest .dayToggle button.active { background: #2d6a4f; }
 
 @media (max-width: 400px) {
     .container {
