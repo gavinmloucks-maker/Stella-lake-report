@@ -94,32 +94,38 @@ strong {
     float: right;
 }
 
-#timeline {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.timelineTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
 }
 
-.time {
-    background: rgba(255,255,255,.12);
-    border-radius: 12px;
-    padding: 10px;
+.timelineTable th {
+    text-align: left;
+    padding: 6px 8px;
+    opacity: .7;
+    font-weight: normal;
+    border-bottom: 1px solid rgba(255,255,255,.25);
 }
 
-.time.tier-1 {
+.timelineTable td {
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.timelineTable tr.tier-1 td {
     background: rgba(255,255,255,.45);
     font-weight: bold;
 }
 
-.time.tier-2 {
+.timelineTable tr.tier-2 td {
     background: rgba(255,255,255,.30);
     font-weight: 600;
 }
 
-.time.tier-3 {
+.timelineTable tr.tier-3 td {
     background: rgba(255,255,255,.18);
 }
-
 
 @media (max-width: 400px) {
     .container {
