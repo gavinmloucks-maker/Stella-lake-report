@@ -13,8 +13,10 @@ async function getThingSpeakData() {
     }
 }
 
-// dayOffset: 0 = today, 1 = tomorrow
-async function getWeatherForecast(dayOffset = 0) {
+// Fetches both today's and tomorrow's hourly forecast in a single
+// request, split apart by day. Used so "Current Conditions" (today)
+// and the selected day's Highs/Timeline can be sourced independently.
+async function getTwoDayForecast() {
     try {
         const lat = SETTINGS.location.latitude;
         const lon = SETTINGS.location.longitude;
@@ -31,53 +33,47 @@ async function getWeatherForecast(dayOffset = 0) {
         const response = await fetch(url);
         const data = await response.json();
 
-        let sunriseRaw = data.daily?.sunrise?.[dayOffset];
-        let sunsetRaw = data.daily?.sunset?.[dayOffset];
+        function extractDay(dayOffset) {
+            let sunriseRaw = data.daily?.sunrise?.[dayOffset];
+            let sunsetRaw = data.daily?.sunset?.[dayOffset];
 
-        const sun = {
-            sunrise: sunriseRaw ? new Date(sunriseRaw) : null,
-            sunset: sunsetRaw ? new Date(sunsetRaw) : null
-        };
+            const sun = {
+                sunrise: sunriseRaw ? new Date(sunriseRaw) : null,
+                sunset: sunsetRaw ? new Date(sunsetRaw) : null
+            };
 
-        let targetDate = new Date();
-        targetDate.setDate(targetDate.getDate() + dayOffset);
-        let targetDateString = targetDate.toDateString();
+            let targetDate = new Date();
+            targetDate.setDate(targetDate.getDate() + dayOffset);
+            let targetDateString = targetDate.toDateString();
 
-        let hours = [];
+            let hours = [];
 
-        for (let i = 0; i < data.hourly.time.length; i++) {
-            let date = new Date(data.hourly.time[i]);
+            for (let i = 0; i < data.hourly.time.length; i++) {
+                let date = new Date(data.hourly.time[i]);
 
-            if (date.toDateString() !== targetDateString) continue;
-            if (sun.sunrise && date < sun.sunrise) continue;
-            if (sun.sunset && date > sun.sunset) continue;
+                if (date.toDateString() !== targetDateString) continue;
+                if (sun.sunrise && date < sun.sunrise) continue;
+                if (sun.sunset && date > sun.sunset) continue;
 
-            hours.push({
-                time: date,
-                air: data.hourly.temperature_2m[i],
-                wind: data.hourly.wind_speed_10m[i],
-                gust: data.hourly.wind_gusts_10m[i],
-                clouds: data.hourly.cloud_cover[i],
-                rain: data.hourly.precipitation_probability[i],
-                humidity: data.hourly.relative_humidity_2m[i],
-                uv: data.hourly.uv_index[i] ?? 0
-            });
+                hours.push({
+                    time: date,
+                    air: data.hourly.temperature_2m[i],
+                    wind: data.hourly.wind_speed_10m[i],
+                    gust: data.hourly.wind_gusts_10m[i],
+                    clouds: data.hourly.cloud_cover[i],
+                    rain: data.hourly.precipitation_probability[i],
+                    humidity: data.hourly.relative_humidity_2m[i],
+                    uv: data.hourly.uv_index[i] ?? 0
+                });
+            }
+
+            return { hours, sun };
         }
 
-        return { hours, sun };
+        return { today: extractDay(0), tomorrow: extractDay(1) };
     } catch (error) {
         console.log("Weather error:", error);
-        return { hours: [], sun: { sunrise: null, sunset: null } };
+        let empty = { hours: [], sun: { sunrise: null, sunset: null } };
+        return { today: empty, tomorrow: empty };
     }
-}
-
-async function getAllLakeData(dayOffset = 0) {
-    const sensor = await getThingSpeakData();
-    const weather = await getWeatherForecast(dayOffset);
-
-    return {
-        current: { air: sensor.air, water: sensor.water },
-        forecast: weather.hours,
-        sun: weather.sun
-    };
 }
