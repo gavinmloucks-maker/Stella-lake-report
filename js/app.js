@@ -65,3 +65,8 @@ function setDay(offset) {
 function loadData() {
     startLakeReport();
 }
+
+// Auto-load as soon as the page finishes loading
+window.addEventListener("load", () => {
+    startLakeReport();
+});
