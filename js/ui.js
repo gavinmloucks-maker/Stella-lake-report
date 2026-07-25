@@ -14,6 +14,7 @@ function updateDashboard(data) {
     document.getElementById("winnerNote").innerHTML = `🏆 Best today: ${winner[0]}`;
 
     updateConditions(data);
+    updateHighs(data);
     updateGreeting(data, lakeScore);
 
     document.getElementById("lakeMood").innerHTML = getLakeMood(lakeScore);
@@ -21,43 +22,51 @@ function updateDashboard(data) {
     document.getElementById("fortune").innerHTML = getRandomFortune();
 
     updateSunsetPredictor(data);
+
+    let timelineTitleEl = document.getElementById("timelineTitle");
+    if (timelineTitleEl) {
+        timelineTitleEl.innerHTML = data.dayOffset === 1 ? "📈 Tomorrow's Timeline" : "📈 Today's Timeline";
+    }
     renderTimeline(data.hours, SETTINGS.preferences.mainActivity);
 }
 
+// Always shows RIGHT NOW conditions — never changes with the Today/Tomorrow toggle.
 function updateConditions(data) {
-    let titleEl = document.getElementById("conditionsTitle");
-    let airLabelEl = document.getElementById("airLabel");
-    let waterLabelEl = document.getElementById("waterLabel");
+    document.getElementById("airDisplay").innerHTML = Math.round(data.current.air) + "°F";
+    document.getElementById("waterDisplay").innerHTML = Math.round(data.current.water) + "°F";
 
-    if (data.dayOffset === 1) {
-        if (titleEl) titleEl.innerHTML = "📡 Conditions At Best Time";
-        if (airLabelEl) airLabelEl.innerHTML = "🌡️ High Air";
-        if (waterLabelEl) waterLabelEl.innerHTML = "🌊 Water (est.)";
-
-        let highAir = Math.max(...data.hours.map(h => h.air));
-        document.getElementById("airDisplay").innerHTML = Math.round(highAir) + "°F";
-        document.getElementById("waterDisplay").innerHTML = Math.round(data.current.water) + "°F";
-    } else {
-        if (titleEl) titleEl.innerHTML = "📡 Current Conditions";
-        if (airLabelEl) airLabelEl.innerHTML = "🌡️ Air";
-        if (waterLabelEl) waterLabelEl.innerHTML = "🌊 Water";
-
-        document.getElementById("airDisplay").innerHTML = Math.round(data.current.air) + "°F";
-        document.getElementById("waterDisplay").innerHTML = Math.round(data.current.water) + "°F";
-    }
-
-    document.getElementById("windDisplay").innerHTML = Math.round(data.bestHour.wind) + " mph";
-    document.getElementById("cloudDisplay").innerHTML = Math.round(data.bestHour.clouds) + "%";
+    let windEl = document.getElementById("windDisplay");
+    if (windEl && data.current.wind != null) windEl.innerHTML = Math.round(data.current.wind) + " mph";
 
     let gustEl = document.getElementById("gustDisplay");
-    if (gustEl && data.bestHour.gust != null) {
-        gustEl.innerHTML = Math.round(data.bestHour.gust) + " mph";
-    }
+    if (gustEl && data.current.gust != null) gustEl.innerHTML = Math.round(data.current.gust) + " mph";
 
-    let peakUvEl = document.getElementById("peakUvDisplay");
-    if (peakUvEl && data.hours && data.hours.length > 0) {
-        let peak = data.hours.reduce((a, b) => (b.uv > a.uv ? b : a));
-        peakUvEl.innerHTML = `${Math.round(peak.uv)} @ ${formatLakeTime(peak.time)}`;
+    let cloudEl = document.getElementById("cloudDisplay");
+    if (cloudEl && data.current.clouds != null) cloudEl.innerHTML = Math.round(data.current.clouds) + "%";
+
+    let uvEl = document.getElementById("uvDisplay");
+    if (uvEl && data.current.uv != null) uvEl.innerHTML = Math.round(data.current.uv);
+}
+
+// Switches between Today's Highs / Tomorrow's Highs based on the toggle.
+function updateHighs(data) {
+    let titleEl = document.getElementById("highsTitle");
+    if (titleEl) titleEl.innerHTML = data.dayOffset === 1 ? "📈 Tomorrow's Highs" : "📈 Today's Highs";
+
+    if (!data.hours || data.hours.length === 0) return;
+
+    let highAirHour = data.hours.reduce((a, b) => (b.air > a.air ? b : a));
+    let peakUvHour = data.hours.reduce((a, b) => (b.uv > a.uv ? b : a));
+
+    let highAirEl = document.getElementById("highAirDisplay");
+    if (highAirEl) highAirEl.innerHTML = `${Math.round(highAirHour.air)}° @ ${formatLakeTime(highAirHour.time)}`;
+
+    let peakUvEl = document.getElementById("highsPeakUvDisplay");
+    if (peakUvEl) peakUvEl.innerHTML = `${Math.round(peakUvHour.uv)} @ ${formatLakeTime(peakUvHour.time)}`;
+
+    let bestWindEl = document.getElementById("bestTimeWindDisplay");
+    if (bestWindEl && data.bestHour) {
+        bestWindEl.innerHTML = `${Math.round(data.bestHour.wind)} mph @ ${formatLakeTime(data.bestHour.time)}`;
     }
 }
 
@@ -133,8 +142,6 @@ function updateSunsetPredictor(data) {
         "💨 Breezy — may not be glassy.";
 }
 
-// Renders the timeline as a table: Time / Air / Wind / Score,
-// with the top-scoring hours shaded darkest, fading out from there.
 function renderTimeline(hours, activity) {
     let el = document.getElementById("timeline");
     if (!el || !hours || hours.length === 0) return;
