@@ -1,3 +1,4 @@
+alert("hi");
 async function getThingSpeakData() {
     try {
         const url = `https://api.thingspeak.com/channels/${SETTINGS.thingSpeak.channel}/feeds/last.json`;
