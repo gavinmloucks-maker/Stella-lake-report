@@ -47,16 +47,25 @@ function updateGreeting(data, score) {
     let el = document.getElementById("greeting");
     if (!el) return;
 
-    let hour = new Date().getHours();
-    let timeOfDay = hour < 12 ? "morning" : hour < 18 ? "afternoon" : "evening";
-
     let activityLabels = { wakeboard: "wakeboard", surf: "wakesurf", ski: "ski", tube: "tube" };
     let activity = SETTINGS.preferences.mainActivity;
     let window = getRideWindow(data.hours, activity);
 
     let windowText = window
         ? `${formatLakeTime(window.start)}–${formatLakeTime(window.end)}`
-        : "later today";
+        : "later in the day";
+
+    if (data.dayOffset === 1) {
+        el.innerHTML = `
+            🌊 Tomorrow's best ${activityLabels[activity]} window is ${windowText}.<br>
+            Lake Score: ${score}/100<br>
+            ${score >= 90 ? "Glass conditions expected." : getLakeMood(score)}
+        `;
+        return;
+    }
+
+    let hour = new Date().getHours();
+    let timeOfDay = hour < 12 ? "morning" : hour < 18 ? "afternoon" : "evening";
 
     el.innerHTML = `
         🌊 Good ${timeOfDay}, ${SETTINGS.user.name}.<br>
@@ -65,6 +74,7 @@ function updateGreeting(data, score) {
         ${score >= 90 ? "Glass conditions expected." : getLakeMood(score)}
     `;
 }
+
 
 function getLakeMood(score) {
     score = Number(score);
