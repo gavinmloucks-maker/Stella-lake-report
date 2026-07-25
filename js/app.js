@@ -18,8 +18,6 @@ async function startLakeReport() {
 
         let selectedDay = days[selectedDayOffset] || days[0];
 
-        // "Right now" always comes from today's data, regardless of
-        // which day is selected, so Current Conditions never changes.
         let now = new Date();
         let todayHours = days[0].hours;
         let nowHour = todayHours.length > 0
@@ -58,23 +56,19 @@ async function startLakeReport() {
 
         updateDashboard(lakeData);
 
-        // Build the 5-day outlook strip using each day's own best hour
-        // for the currently selected activity.
         let outlook = days.map(day => {
             let dayHours = buildHourlyConditions(day.hours, sensor.water);
-            let dayBest = dayHours.length > 0
-                ? findBestTime(dayHours, SETTINGS.preferences.mainActivity)
-                : null;
-            return {
-                dayOffset: day.dayOffset,
-                label: dayLabel(day.dayOffset),
-                score: dayBest ? dayBest.score : null
-            };
+            let dayBest = dayHours.length > 0 ? findBestTime(dayHours, SETTINGS.preferences.mainActivity) : null;
+            return { dayOffset: day.dayOffset, label: dayLabel(day.dayOffset), score: dayBest ? dayBest.score : null };
         });
 
         renderOutlook(outlook, selectedDayOffset);
 
         document.getElementById("status").innerHTML = "✅ Updated";
+
+        if (typeof maybeNotifyGreatConditions === "function") {
+            maybeNotifyGreatConditions();
+        }
     } catch (error) {
         console.log(error);
         document.getElementById("status").innerHTML = "❌ " + error.message;
@@ -94,12 +88,45 @@ function formatLakeTime(time) {
 }
 
 function setDay(offset) {
+    if (typeof playTap === "function") playTap();
     selectedDayOffset = offset;
     startLakeReport();
 }
 
 function loadData() {
+    if (typeof playTap === "function") playTap();
     startLakeReport();
+}
+
+async function shareReport() {
+    if (!lakeData) return;
+
+    let activity = SETTINGS.preferences.mainActivity;
+    let window_ = getRideWindow(lakeData.hours, activity);
+    let windowText = window_ ? `${formatLakeTime(window_.start)}–${formatLakeTime(window_.end)}` : "later today";
+    let score = document.getElementById("lakeScore").innerHTML;
+
+    let text = `🌊 Stella Lake: ${score}/100 (${dayLabel(lakeData.dayOffset)})\nBest ${activity} window: ${windowText}\n${getLakeMood(score)}`;
+
+    if (navigator.share) {
+        try {
+            await navigator.share({ title: "Stella AI — Lake Report", text: text });
+        } catch (e) {
+            console.log("Share cancelled or failed:", e);
+        }
+    } else if (navigator.clipboard) {
+        try {
+            await navigator.clipboard.writeText(text);
+            let btn = document.getElementById("shareBtn");
+            if (btn) {
+                let original = btn.innerHTML;
+                btn.innerHTML = "✅ Copied!";
+                setTimeout(() => { btn.innerHTML = original; }, 1500);
+            }
+        } catch (e) {
+            console.log("Clipboard error:", e);
+        }
+    }
 }
 
 window.addEventListener("load", () => {
