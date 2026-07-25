@@ -25,9 +25,6 @@ const SETTINGS = {
         perfectWindMax: 5
     },
 
-    // Each activity's weights include timeOfDay, which biases scoring
-    // toward the 11 AM - 6 PM window regardless of wind/temp swings.
-    // Every activity's weights sum to 1.0.
     weights: {
         wakeboard: { wind: 0.40, air: 0.20, water: 0.15, weather: 0.05, timeOfDay: 0.20 },
         surf:      { wind: 0.35, air: 0.20, water: 0.20, weather: 0.05, timeOfDay: 0.20 },
@@ -39,7 +36,66 @@ const SETTINGS = {
         mainActivity: "wakeboard",
         favoriteLake: "Stella Lake",
         favoriteWindowStart: 8,
-        favoriteWindowEnd: 18
+        favoriteWindowEnd: 18,
+        theme: "blue"
     }
 
 };
+
+const THEMES = ["blue", "sunset", "purple", "forest"];
+const ACTIVITIES = ["wakeboard", "surf", "ski", "tube"];
+
+function loadUserSettings() {
+    let saved = {};
+    try {
+        saved = JSON.parse(localStorage.getItem("stellaUserSettings")) || {};
+    } catch (e) {
+        saved = {};
+    }
+
+    if (saved.mainActivity && ACTIVITIES.includes(saved.mainActivity)) {
+        SETTINGS.preferences.mainActivity = saved.mainActivity;
+    }
+    if (saved.theme && THEMES.includes(saved.theme)) {
+        SETTINGS.preferences.theme = saved.theme;
+    }
+
+    applyTheme(SETTINGS.preferences.theme);
+    applyActivityButtons(SETTINGS.preferences.mainActivity);
+}
+
+function saveUserSettings() {
+    localStorage.setItem("stellaUserSettings", JSON.stringify({
+        mainActivity: SETTINGS.preferences.mainActivity,
+        theme: SETTINGS.preferences.theme
+    }));
+}
+
+function applyTheme(theme) {
+    document.body.className = "theme-" + theme;
+
+    document.querySelectorAll(".themeSwatch").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.theme === theme);
+    });
+}
+
+function applyActivityButtons(activity) {
+    document.querySelectorAll(".activityBtn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.activity === activity);
+    });
+}
+
+function setTheme(theme) {
+    SETTINGS.preferences.theme = theme;
+    applyTheme(theme);
+    saveUserSettings();
+}
+
+function setMainActivity(activity) {
+    SETTINGS.preferences.mainActivity = activity;
+    applyActivityButtons(activity);
+    saveUserSettings();
+    startLakeReport();
+}
+
+loadUserSettings();
