@@ -61,6 +61,22 @@ button:active {
     transform: scale(.98);
 }
 
+.dayToggle {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.dayToggle button {
+    flex: 1;
+    opacity: .6;
+}
+
+.dayToggle button.active {
+    opacity: 1;
+    background: #0096c7;
+}
+
 .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -93,22 +109,6 @@ strong {
 .best {
     background: rgba(255,255,255,.35);
     font-weight: bold;
-}
-
-.stars button {
-    width: auto;
-    padding: 8px 14px;
-    margin: 2px;
-    font-size: 16px;
-}
-
-.inline-btn {
-    width: auto;
-    padding: 8px 14px;
-}
-
-input[type="range"] {
-    width: 100%;
 }
 
 @media (max-width: 400px) {
