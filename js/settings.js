@@ -45,6 +45,13 @@ const SETTINGS = {
 const THEMES = ["blue", "sunset", "purple", "forest"];
 const ACTIVITIES = ["wakeboard", "surf", "ski", "tube"];
 
+const THEME_COLORS = {
+    blue: "#0077b6",
+    sunset: "#c1440e",
+    purple: "#3a0ca3",
+    forest: "#1b4332"
+};
+
 function loadUserSettings() {
     let saved = {};
     try {
@@ -71,8 +78,16 @@ function saveUserSettings() {
     }));
 }
 
+// Theme class lives on <html>, not <body> — this is what lets the
+// background paint under the iOS notch/status bar and during
+// overscroll instead of showing white there.
 function applyTheme(theme) {
-    document.body.className = "theme-" + theme;
+    document.documentElement.className = "theme-" + theme;
+
+    let metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (metaTheme && THEME_COLORS[theme]) {
+        metaTheme.setAttribute("content", THEME_COLORS[theme]);
+    }
 
     document.querySelectorAll(".themeSwatch").forEach(btn => {
         btn.classList.toggle("active", btn.dataset.theme === theme);
