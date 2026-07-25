@@ -18,6 +18,10 @@
 <p id="greeting" class="card"></p>
 
 <div class="card">
+<div class="dayToggle">
+<button id="todayBtn" class="active" onclick="setDay(0)">Today</button>
+<button id="tomorrowBtn" onclick="setDay(1)">Tomorrow</button>
+</div>
 <button onclick="loadData()">Update Lake Report</button>
 <p id="status">Waiting for update...</p>
 </div>
@@ -72,31 +76,6 @@
 <div class="card">
 <h2>🍀 Lake Fortune</h2>
 <p id="fortune"></p>
-</div>
-
-
-
-
-<div id="ratingPrompt" style="display:none; margin-top:15px;">
-
-<p>How accurate was today's score?</p>
-<div class="stars">
-<button onclick="rateAccuracy(1)">⭐</button>
-<button onclick="rateAccuracy(2)">⭐⭐</button>
-<button onclick="rateAccuracy(3)">⭐⭐⭐</button>
-<button onclick="rateAccuracy(4)">⭐⭐⭐⭐</button>
-<button onclick="rateAccuracy(5)">⭐⭐⭐⭐⭐</button>
-</div>
-<p id="accuracyConfirm"></p>
-
-<p>How much fun did you actually have?</p>
-<input type="range" id="funSlider" min="0" max="100" value="75"
-    oninput="document.getElementById('funValue').innerHTML=this.value">
-<p><span id="funValue">75</span>/100
-<button class="inline-btn" onclick="rateFun(document.getElementById('funSlider').value)">Save</button></p>
-<p id="funConfirm"></p>
-
-</div>
 </div>
 
 </div>
