@@ -5,42 +5,47 @@ async function startLakeReport() {
     document.getElementById("status").innerHTML = "⏳ Loading Stella Lake...";
 
     try {
-        let data = await getAllLakeData(selectedDayOffset);
+        let sensor = await getThingSpeakData();
+        let forecast = await getTwoDayForecast();
 
-        if (data.forecast.length === 0) {
+        let selectedWeather = selectedDayOffset === 1 ? forecast.tomorrow : forecast.today;
+
+        if (selectedWeather.hours.length === 0) {
             document.getElementById("status").innerHTML = "⚠️ No forecast data for that day.";
             return;
         }
 
-        let hours = buildHourlyConditions(data.forecast, data.current.water);
+        // "Right now" always comes from today's data, regardless of
+        // which day is selected, so Current Conditions never changes
+        // when you flip to Tomorrow.
+        let now = new Date();
+        let nowHour = forecast.today.hours.length > 0
+            ? forecast.today.hours.reduce((a, b) => Math.abs(b.time - now) < Math.abs(a.time - now) ? b : a)
+            : null;
+
+        let current = {
+            air: sensor.air,
+            water: sensor.water,
+            wind: nowHour ? nowHour.wind : null,
+            gust: nowHour ? nowHour.gust : null,
+            clouds: nowHour ? nowHour.clouds : null,
+            uv: nowHour ? nowHour.uv : null
+        };
+
+        let hours = buildHourlyConditions(selectedWeather.hours, sensor.water);
         let best = findAllBestTimes(hours);
         let overall = getOverallBest(best);
-        let waitRec = getWaitRecommendation(hours, SETTINGS.preferences.mainActivity);
 
         lakeData = {
-            current: data.current,
+            current: current,
             hours: hours,
             best: best,
             bestHour: overall.data,
-            sun: data.sun,
-            waitRec: waitRec,
+            sun: selectedWeather.sun,
             dayOffset: selectedDayOffset
         };
 
         updateDashboard(lakeData);
-
-        document.getElementById("bestTime").innerHTML = formatLakeTime(overall.data.time);
-        document.getElementById("bestReason").innerHTML = `
-            ${overall.name}<br>
-            Score: ${overall.data.score}/100<br>
-            Wind: ${Math.round(overall.data.wind)} mph<br>
-            Air: ${Math.round(overall.data.air)}°F
-        `;
-
-        let waitEl = document.getElementById("waitMessage");
-        if (waitEl) {
-            waitEl.innerHTML = (selectedDayOffset === 0 && waitRec) ? waitRec.message : "";
-        }
 
         document.getElementById("status").innerHTML = "✅ Updated";
     } catch (error) {
@@ -66,7 +71,6 @@ function loadData() {
     startLakeReport();
 }
 
-// Auto-load as soon as the page finishes loading
 window.addEventListener("load", () => {
     startLakeReport();
 });
