@@ -1,3 +1,32 @@
+// Animates a number counting up (or down) to its target value.
+// Stores the last value on the element itself so the next animation
+// starts from where the last one left off, not from 0 every time.
+function animateNumber(el, to, opts = {}) {
+    if (!el) return;
+
+    let duration = opts.duration || 700;
+    let suffix = opts.suffix || "";
+    let from = Number(el.dataset.rawValue) || 0;
+    let start = null;
+
+    function step(timestamp) {
+        if (!start) start = timestamp;
+        let progress = Math.min((timestamp - start) / duration, 1);
+        let eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        let current = Math.round(from + (to - from) * eased);
+
+        el.innerHTML = current + suffix;
+
+        if (progress < 1) {
+            requestAnimationFrame(step);
+        } else {
+            el.dataset.rawValue = to;
+        }
+    }
+
+    requestAnimationFrame(step);
+}
+
 function updateDashboard(data) {
     let activities = calculateAllActivities(data.bestHour);
     let winner = Object.entries(activities).sort((a, b) => b[1] - a[1])[0];
@@ -6,12 +35,21 @@ function updateDashboard(data) {
         (activities.wakeboard + activities.surf + activities.ski + activities.tube) / 4
     );
 
-    document.getElementById("lakeScore").innerHTML = lakeScore;
-    document.getElementById("wakeScore").innerHTML = activities.wakeboard + "/100";
-    document.getElementById("surfScore").innerHTML = activities.surf + "/100";
-    document.getElementById("skiScore").innerHTML = activities.ski + "/100";
-    document.getElementById("tubeScore").innerHTML = activities.tube + "/100";
+    animateNumber(document.getElementById("lakeScore"), lakeScore);
+    animateNumber(document.getElementById("wakeScore"), activities.wakeboard, { suffix: "/100" });
+    animateNumber(document.getElementById("surfScore"), activities.surf, { suffix: "/100" });
+    animateNumber(document.getElementById("skiScore"), activities.ski, { suffix: "/100" });
+    animateNumber(document.getElementById("tubeScore"), activities.tube, { suffix: "/100" });
+
     document.getElementById("winnerNote").innerHTML = `🏆 Best today: ${winner[0]}`;
+
+    // Restart the pulse animation on the hero card every update
+    let heroEl = document.querySelector(".hero");
+    if (heroEl) {
+        heroEl.classList.remove("pulse");
+        void heroEl.offsetWidth; // forces a reflow so the animation can replay
+        heroEl.classList.add("pulse");
+    }
 
     updateConditions(data);
     updateHighs(data);
@@ -30,7 +68,6 @@ function updateDashboard(data) {
     renderTimeline(data.hours, SETTINGS.preferences.mainActivity);
 }
 
-// Always shows RIGHT NOW conditions — never changes with the Today/Tomorrow toggle.
 function updateConditions(data) {
     document.getElementById("airDisplay").innerHTML = Math.round(data.current.air) + "°F";
     document.getElementById("waterDisplay").innerHTML = Math.round(data.current.water) + "°F";
@@ -48,7 +85,6 @@ function updateConditions(data) {
     if (uvEl && data.current.uv != null) uvEl.innerHTML = Math.round(data.current.uv);
 }
 
-// Switches between Today's Highs / Tomorrow's Highs based on the toggle.
 function updateHighs(data) {
     let titleEl = document.getElementById("highsTitle");
     if (titleEl) titleEl.innerHTML = data.dayOffset === 1 ? "📈 Tomorrow's Highs" : "📈 Today's Highs";
