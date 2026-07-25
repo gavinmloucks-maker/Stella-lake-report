@@ -54,8 +54,6 @@ function weatherScore(data) {
     return clamp(score);
 }
 
-// Biases toward 11 AM - 6 PM, the practical riding window, regardless
-// of what wind/temp happen to be doing at other hours.
 function timeOfDayScore(time) {
     let hour = new Date(time).getHours();
 
