@@ -30,16 +30,18 @@ function updateConditions(data) {
     document.getElementById("windDisplay").innerHTML = Math.round(data.bestHour.wind) + " mph";
     document.getElementById("cloudDisplay").innerHTML = Math.round(data.bestHour.clouds) + "%";
 
-    let humidityEl = document.getElementById("humidityDisplay");
-    if (humidityEl && data.bestHour.humidity != null) {
-        humidityEl.innerHTML = Math.round(data.bestHour.humidity) + "%";
+    let gustEl = document.getElementById("gustDisplay");
+    if (gustEl && data.bestHour.gust != null) {
+        gustEl.innerHTML = Math.round(data.bestHour.gust) + " mph";
     }
 
-    let uvEl = document.getElementById("uvDisplay");
-    if (uvEl && data.bestHour.uv != null) {
-        uvEl.innerHTML = Math.round(data.bestHour.uv);
+    let peakUvEl = document.getElementById("peakUvDisplay");
+    if (peakUvEl && data.hours && data.hours.length > 0) {
+        let peak = data.hours.reduce((a, b) => (b.uv > a.uv ? b : a));
+        peakUvEl.innerHTML = `${Math.round(peak.uv)} @ ${formatLakeTime(peak.time)}`;
     }
 }
+
 
 function updateGreeting(data, score) {
     let el = document.getElementById("greeting");
