@@ -25,16 +25,14 @@ const SETTINGS = {
         perfectWindMax: 5
     },
 
+    // Each activity's weights include timeOfDay, which biases scoring
+    // toward the 11 AM - 6 PM window regardless of wind/temp swings.
+    // Every activity's weights sum to 1.0.
     weights: {
-        wakeboard: { wind: 0.50, air: 0.25, water: 0.20, weather: 0.05 },
-        surf:      { wind: 0.45, air: 0.25, water: 0.25, weather: 0.05 },
-        ski:       { wind: 0.50, air: 0.25, water: 0.20, weather: 0.05 },
-        tube:      { wind: 0.30, air: 0.35, water: 0.25, weather: 0.10 }
-    },
-
-    adaptive: {
-        scoreAccuracyMultiplier: 1.0,
-        funMultiplier: 1.0
+        wakeboard: { wind: 0.40, air: 0.20, water: 0.15, weather: 0.05, timeOfDay: 0.20 },
+        surf:      { wind: 0.35, air: 0.20, water: 0.20, weather: 0.05, timeOfDay: 0.20 },
+        ski:       { wind: 0.40, air: 0.20, water: 0.15, weather: 0.05, timeOfDay: 0.20 },
+        tube:      { wind: 0.25, air: 0.30, water: 0.20, weather: 0.05, timeOfDay: 0.20 }
     },
 
     preferences: {
