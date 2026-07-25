@@ -133,6 +133,8 @@ function updateSunsetPredictor(data) {
         "💨 Breezy — may not be glassy.";
 }
 
+// Renders the timeline as a table: Time / Air / Wind / Score,
+// with the top-scoring hours shaded darkest, fading out from there.
 function renderTimeline(hours, activity) {
     let el = document.getElementById("timeline");
     if (!el || !hours || hours.length === 0) return;
@@ -143,13 +145,30 @@ function renderTimeline(hours, activity) {
     let rankMap = new Map();
     ranked.forEach((h, i) => rankMap.set(h.time.getTime(), i));
 
-    el.innerHTML = timeline.map(h => {
-        let rank = rankMap.get(h.time.getTime());
+    let rows = timeline.map((t, i) => {
+        let hour = hours[i];
+        let rank = rankMap.get(t.time.getTime());
         let tierClass = "";
         if (rank === 0) tierClass = "tier-1";
         else if (rank <= 2) tierClass = "tier-2";
         else if (rank <= 4) tierClass = "tier-3";
 
-        return `<div class="time${tierClass ? " " + tierClass : ""}">${formatLakeTime(h.time)} — ${h.score} ${h.stars}</div>`;
+        return `
+            <tr class="${tierClass}">
+                <td>${formatLakeTime(t.time)}</td>
+                <td>${Math.round(hour.air)}°</td>
+                <td>${Math.round(hour.wind)} mph</td>
+                <td>${t.score} ${t.stars}</td>
+            </tr>
+        `;
     }).join("");
+
+    el.innerHTML = `
+        <table class="timelineTable">
+            <thead>
+                <tr><th>Time</th><th>Air</th><th>Wind</th><th>Score</th></tr>
+            </thead>
+            <tbody>${rows}</tbody>
+        </table>
+    `;
 }
