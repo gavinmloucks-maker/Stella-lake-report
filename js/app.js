@@ -42,9 +42,11 @@ async function startLakeReport() {
             hours: hours,
             best: best,
             bestHour: overall.data,
+            activityBestHour: activityBest,
             sun: selectedWeather.sun,
             dayOffset: selectedDayOffset
         };
+
 
 
         updateDashboard(lakeData);
