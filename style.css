@@ -51,14 +51,8 @@ h1, h2, h3 {
 .card:nth-of-type(9) { animation-delay: 0.50s; }
 
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .hero {
@@ -72,18 +66,9 @@ h1, h2, h3 {
 }
 
 @keyframes pulseGlow {
-    0% {
-        box-shadow: 0 8px 25px rgba(0,0,0,.15);
-        transform: scale(1);
-    }
-    30% {
-        box-shadow: 0 8px 40px rgba(255,255,255,.35);
-        transform: scale(1.02);
-    }
-    100% {
-        box-shadow: 0 8px 25px rgba(0,0,0,.15);
-        transform: scale(1);
-    }
+    0% { box-shadow: 0 8px 25px rgba(0,0,0,.15); transform: scale(1); }
+    30% { box-shadow: 0 8px 40px rgba(255,255,255,.35); transform: scale(1.02); }
+    100% { box-shadow: 0 8px 25px rgba(0,0,0,.15); transform: scale(1); }
 }
 
 .score {
@@ -106,21 +91,6 @@ button:active {
     transform: scale(.98);
 }
 
-.dayToggle {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.dayToggle button {
-    flex: 1;
-    opacity: .6;
-}
-
-.dayToggle button.active {
-    opacity: 1;
-}
-
 .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -136,6 +106,42 @@ button:active {
 
 strong {
     float: right;
+}
+
+.trendNote {
+    text-align: center;
+    opacity: .85;
+    margin: 10px 0 0;
+}
+
+.outlookStrip {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin-bottom: 15px;
+    padding-bottom: 4px;
+}
+
+.outlookDay {
+    width: auto;
+    flex: 0 0 auto;
+    min-width: 64px;
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    opacity: .55;
+    font-size: 13px;
+}
+
+.outlookDay.active {
+    opacity: 1;
+}
+
+.outlookScore {
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .timelineTable {
@@ -194,31 +200,23 @@ strong {
     background: linear-gradient(180deg, #0077b6, #0096c7, #90e0ef);
 }
 .theme-blue button { background: #023e8a; }
-.theme-blue .dayToggle button.active { background: #0096c7; }
 
 .theme-sunset {
     background: linear-gradient(180deg, #ff6b35, #f7931e, #ffd166);
 }
 .theme-sunset button { background: #c1440e; }
-.theme-sunset .dayToggle button.active { background: #f7931e; }
 
 .theme-purple {
     background: linear-gradient(180deg, #3a0ca3, #7209b7, #b5179e);
 }
 .theme-purple button { background: #3a0ca3; }
-.theme-purple .dayToggle button.active { background: #7209b7; }
 
 .theme-forest {
     background: linear-gradient(180deg, #1b4332, #2d6a4f, #74c69d);
 }
 .theme-forest button { background: #1b4332; }
-.theme-forest .dayToggle button.active { background: #2d6a4f; }
 
 @media (max-width: 400px) {
-    .container {
-        padding: 12px;
-    }
-    .score {
-        font-size: 55px;
-    }
+    .container { padding: 12px; }
+    .score { font-size: 55px; }
 }
