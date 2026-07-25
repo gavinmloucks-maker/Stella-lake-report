@@ -35,6 +35,7 @@
 <div class="score" id="lakeScore">--</div>
 <h2 id="lakeMood">--</h2>
 <p id="lakeSummary"></p>
+<button id="shareBtn" onclick="shareReport()">📤 Share Report</button>
 </div>
 
 <div class="card">
@@ -101,6 +102,13 @@
 <button class="themeSwatch" data-theme="purple" onclick="setTheme('purple')">Dusk</button>
 <button class="themeSwatch" data-theme="forest" onclick="setTheme('forest')">Forest</button>
 </div>
+
+<p>Alerts & Sound</p>
+<div class="pillRow">
+<button id="notifyBtn" onclick="toggleNotifications()">🔕 Enable Notifications</button>
+<button id="soundBtn" onclick="toggleSound()">🔈 Sound Off</button>
+<button id="ambientBtn" onclick="toggleAmbient()">🎵 Ambient Off</button>
+</div>
 </div>
 
 </div>
@@ -112,6 +120,8 @@
 <script src="js/scoring.js"></script>
 <script src="js/planner.js"></script>
 <script src="js/watertrend.js"></script>
+<script src="js/notifications.js"></script>
+<script src="js/sound.js"></script>
 <script src="js/ui.js"></script>
 <script src="./js/app.js?v=999"></script>
 
