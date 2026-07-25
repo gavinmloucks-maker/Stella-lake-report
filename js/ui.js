@@ -65,8 +65,8 @@ function updateHighs(data) {
     if (peakUvEl) peakUvEl.innerHTML = `${Math.round(peakUvHour.uv)} @ ${formatLakeTime(peakUvHour.time)}`;
 
     let bestWindEl = document.getElementById("bestTimeWindDisplay");
-    if (bestWindEl && data.bestHour) {
-        bestWindEl.innerHTML = `${Math.round(data.bestHour.wind)} mph @ ${formatLakeTime(data.bestHour.time)}`;
+    if (bestWindEl && data.activityBestHour) {
+        bestWindEl.innerHTML = `${Math.round(data.activityBestHour.wind)} mph @ ${formatLakeTime(data.activityBestHour.time)}`;
     }
 }
 
