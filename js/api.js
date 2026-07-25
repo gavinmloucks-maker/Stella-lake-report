@@ -13,7 +13,8 @@ async function getThingSpeakData() {
     }
 }
 
-async function getWeatherForecast() {
+// dayOffset: 0 = today, 1 = tomorrow
+async function getWeatherForecast(dayOffset = 0) {
     try {
         const lat = SETTINGS.location.latitude;
         const lon = SETTINGS.location.longitude;
@@ -25,22 +26,29 @@ async function getWeatherForecast() {
             `&hourly=temperature_2m,wind_speed_10m,wind_gusts_10m,cloud_cover,precipitation_probability,relative_humidity_2m,uv_index` +
             `&daily=sunrise,sunset` +
             `&temperature_unit=fahrenheit&wind_speed_unit=mph` +
-            `&timezone=${tz}&forecast_days=1`;
+            `&timezone=${tz}&forecast_days=2`;
 
         const response = await fetch(url);
         const data = await response.json();
 
+        let sunriseRaw = data.daily?.sunrise?.[dayOffset];
+        let sunsetRaw = data.daily?.sunset?.[dayOffset];
+
         const sun = {
-            sunrise: data.daily?.sunrise?.[0] ? new Date(data.daily.sunrise[0]) : null,
-            sunset: data.daily?.sunset?.[0] ? new Date(data.daily.sunset[0]) : null
+            sunrise: sunriseRaw ? new Date(sunriseRaw) : null,
+            sunset: sunsetRaw ? new Date(sunsetRaw) : null
         };
+
+        let targetDate = new Date();
+        targetDate.setDate(targetDate.getDate() + dayOffset);
+        let targetDateString = targetDate.toDateString();
 
         let hours = [];
 
         for (let i = 0; i < data.hourly.time.length; i++) {
             let date = new Date(data.hourly.time[i]);
 
-            // Only include hours you can actually ride: sunrise to sunset.
+            if (date.toDateString() !== targetDateString) continue;
             if (sun.sunrise && date < sun.sunrise) continue;
             if (sun.sunset && date > sun.sunset) continue;
 
@@ -63,9 +71,9 @@ async function getWeatherForecast() {
     }
 }
 
-async function getAllLakeData() {
+async function getAllLakeData(dayOffset = 0) {
     const sensor = await getThingSpeakData();
-    const weather = await getWeatherForecast();
+    const weather = await getWeatherForecast(dayOffset);
 
     return {
         current: { air: sensor.air, water: sensor.water },
