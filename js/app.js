@@ -35,6 +35,7 @@ async function startLakeReport() {
         let hours = buildHourlyConditions(selectedWeather.hours, sensor.water);
         let best = findAllBestTimes(hours);
         let overall = getOverallBest(best);
+        let activityBest = findBestTime(hours, SETTINGS.preferences.mainActivity);
 
         lakeData = {
             current: current,
