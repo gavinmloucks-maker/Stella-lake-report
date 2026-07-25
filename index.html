@@ -25,10 +25,7 @@
 <p id="greeting" class="card"></p>
 
 <div class="card">
-<div class="dayToggle">
-<button id="todayBtn" class="active" onclick="setDay(0)">Today</button>
-<button id="tomorrowBtn" onclick="setDay(1)">Tomorrow</button>
-</div>
+<div id="outlookStrip" class="outlookStrip">Loading outlook...</div>
 <button onclick="loadData()">Update Lake Report</button>
 <p id="status">Waiting for update...</p>
 </div>
@@ -50,6 +47,7 @@
 <div>☁️ Clouds<h3 id="cloudDisplay">--</h3></div>
 <div>🔆 UV<h3 id="uvDisplay">--</h3></div>
 </div>
+<p id="waterTrendNote" class="trendNote"></p>
 </div>
 
 <div class="card">
@@ -113,6 +111,7 @@
 <script src="js/api.js"></script>
 <script src="js/scoring.js"></script>
 <script src="js/planner.js"></script>
+<script src="js/watertrend.js"></script>
 <script src="js/ui.js"></script>
 <script src="./js/app.js?v=999"></script>
 
