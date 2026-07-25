@@ -74,29 +74,8 @@
 <p id="fortune"></p>
 </div>
 
-<div class="card">
-<h2>🔮 What If Simulator</h2>
 
-<p>💨 Wind: <span id="wifWindVal">5</span> mph</p>
-<input type="range" id="wifWind" min="0" max="30" value="5" oninput="recalcWhatIf()">
 
-<p>🌡️ Air: <span id="wifAirVal">85</span>°F</p>
-<input type="range" id="wifAir" min="50" max="100" value="85" oninput="recalcWhatIf()">
-
-<p>🌊 Water: <span id="wifWaterVal">80</span>°F</p>
-<input type="range" id="wifWater" min="60" max="90" value="80" oninput="recalcWhatIf()">
-
-<p>☁️ Clouds: <span id="wifCloudsVal">20</span>%</p>
-<input type="range" id="wifClouds" min="0" max="100" value="20" oninput="recalcWhatIf()">
-
-<div class="score" id="wifScore" style="font-size:40px; margin-top:15px;">--</div>
-<p id="wifNote"></p>
-</div>
-
-<div class="card">
-<h2>🤖 Rate Today</h2>
-<p style="opacity:.8; font-size:14px;">Helps Stella learn your real preferences over time.</p>
-<button onclick="recordPrediction()">Rate Today's Conditions</button>
 
 <div id="ratingPrompt" style="display:none; margin-top:15px;">
 
