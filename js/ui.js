@@ -47,6 +47,10 @@ function updateDashboard(data) {
         heroEl.classList.add("pulse");
     }
 
+    if (lakeScore >= 90 && typeof playChime === "function") {
+        playChime();
+    }
+
     updateConditions(data);
     updateHighs(data);
     updateGreeting(data, lakeScore);
@@ -117,10 +121,10 @@ function updateGreeting(data, score) {
 
     let activityLabels = { wakeboard: "wakeboard", surf: "wakesurf", ski: "ski", tube: "tube" };
     let activity = SETTINGS.preferences.mainActivity;
-    let window = getRideWindow(data.hours, activity);
+    let window_ = getRideWindow(data.hours, activity);
 
-    let windowText = window
-        ? `${formatLakeTime(window.start)}–${formatLakeTime(window.end)}`
+    let windowText = window_
+        ? `${formatLakeTime(window_.start)}–${formatLakeTime(window_.end)}`
         : "later in the day";
 
     if (data.dayOffset > 0) {
