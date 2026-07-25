@@ -13,10 +13,9 @@ async function getThingSpeakData() {
     }
 }
 
-// Fetches both today's and tomorrow's hourly forecast in a single
-// request, split apart by day. Used so "Current Conditions" (today)
-// and the selected day's Highs/Timeline can be sourced independently.
-async function getTwoDayForecast() {
+// Fetches multi-day hourly forecast, split into per-day buckets.
+// dayCount: how many days ahead to include (today = day 0).
+async function getMultiDayForecast(dayCount = 5) {
     try {
         const lat = SETTINGS.location.latitude;
         const lon = SETTINGS.location.longitude;
@@ -25,10 +24,10 @@ async function getTwoDayForecast() {
         const url =
             `https://api.open-meteo.com/v1/forecast` +
             `?latitude=${lat}&longitude=${lon}` +
-            `&hourly=temperature_2m,wind_speed_10m,wind_gusts_10m,cloud_cover,precipitation_probability,relative_humidity_2m,uv_index` +
+            `&hourly=temperature_2m,wind_speed_10m,wind_gusts_10m,cloud_cover,precipitation_probability,relative_humidity_2m,uv_index,weather_code` +
             `&daily=sunrise,sunset` +
             `&temperature_unit=fahrenheit&wind_speed_unit=mph` +
-            `&timezone=${tz}&forecast_days=2`;
+            `&timezone=${tz}&forecast_days=${dayCount}`;
 
         const response = await fetch(url);
         const data = await response.json();
@@ -63,17 +62,19 @@ async function getTwoDayForecast() {
                     clouds: data.hourly.cloud_cover[i],
                     rain: data.hourly.precipitation_probability[i],
                     humidity: data.hourly.relative_humidity_2m[i],
-                    uv: data.hourly.uv_index[i] ?? 0
+                    uv: data.hourly.uv_index[i] ?? 0,
+                    weatherCode: data.hourly.weather_code[i]
                 });
             }
 
-            return { hours, sun };
+            return { dayOffset, date: targetDate, hours, sun };
         }
 
-        return { today: extractDay(0), tomorrow: extractDay(1) };
+        let days = [];
+        for (let d = 0; d < dayCount; d++) days.push(extractDay(d));
+        return days;
     } catch (error) {
         console.log("Weather error:", error);
-        let empty = { hours: [], sun: { sunrise: null, sunset: null } };
-        return { today: empty, tomorrow: empty };
+        return [];
     }
 }
