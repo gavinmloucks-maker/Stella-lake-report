@@ -54,33 +54,12 @@
 <p>🌊 Wakesurf: <strong id="surfScore">--</strong></p>
 <p>🎿 Ski: <strong id="skiScore">--</strong></p>
 <p>🛟 Tube: <strong id="tubeScore">--</strong></p>
+<p id="winnerNote"></p>
 </div>
 
 <div class="card">
 <h2>📈 Today's Timeline</h2>
 <div id="timeline">Waiting for forecast...</div>
-</div>
-
-<div class="card">
-<h2>📊 Why Today's Score?</h2>
-<p id="factorBreakdown"></p>
-</div>
-
-<div class="card">
-<h2>🏆 Best Activity</h2>
-<h2 id="winner">--</h2>
-<p id="winnerReason"></p>
-</div>
-
-<div class="card">
-<h2>🧠 Lake IQ</h2>
-<p id="lakeIQ"></p>
-</div>
-
-<div class="card">
-<h2>🚤 Should You Take The Boat?</h2>
-<h2 id="boatDecision">--</h2>
-<p id="boatReason"></p>
 </div>
 
 <div class="card">
@@ -96,9 +75,28 @@
 </div>
 
 <div class="card">
-<h2>📖 Lake Journal</h2>
-<button onclick="saveToday()">Save Today</button>
-<p id="saved"></p>
+<h2>🔮 What If Simulator</h2>
+
+<p>💨 Wind: <span id="wifWindVal">5</span> mph</p>
+<input type="range" id="wifWind" min="0" max="30" value="5" oninput="recalcWhatIf()">
+
+<p>🌡️ Air: <span id="wifAirVal">85</span>°F</p>
+<input type="range" id="wifAir" min="50" max="100" value="85" oninput="recalcWhatIf()">
+
+<p>🌊 Water: <span id="wifWaterVal">80</span>°F</p>
+<input type="range" id="wifWater" min="60" max="90" value="80" oninput="recalcWhatIf()">
+
+<p>☁️ Clouds: <span id="wifCloudsVal">20</span>%</p>
+<input type="range" id="wifClouds" min="0" max="100" value="20" oninput="recalcWhatIf()">
+
+<div class="score" id="wifScore" style="font-size:40px; margin-top:15px;">--</div>
+<p id="wifNote"></p>
+</div>
+
+<div class="card">
+<h2>🤖 Rate Today</h2>
+<p style="opacity:.8; font-size:14px;">Helps Stella learn your real preferences over time.</p>
+<button onclick="recordPrediction()">Rate Today's Conditions</button>
 
 <div id="ratingPrompt" style="display:none; margin-top:15px;">
 
@@ -119,29 +117,20 @@
 <button class="inline-btn" onclick="rateFun(document.getElementById('funSlider').value)">Save</button></p>
 <p id="funConfirm"></p>
 
-<p>Notes</p>
-<textarea id="journalNotes" rows="3" onchange="saveNotes(this.value)"></textarea>
-
 </div>
-</div>
-
-<div class="card">
-<h2>🏆 Summer Stats</h2>
-<p id="stats">No saved lake days yet.</p>
 </div>
 
 </div>
 
 <script src="data/fortunes.js"></script>
-<script src="data/messages.js"></script>
 
 <script src="js/settings.js"></script>
 <script src="js/api.js"></script>
 <script src="js/scoring.js"></script>
 <script src="js/planner.js"></script>
-<script src="js/journal.js"></script>
-<script src="js/analytics.js"></script>
+<script src="js/adaptive.js"></script>
 <script src="js/ui.js"></script>
+<script src="js/whatif.js"></script>
 <script src="./js/app.js?v=999"></script>
 
 </body>
