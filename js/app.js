@@ -46,6 +46,7 @@ async function startLakeReport() {
             dayOffset: selectedDayOffset
         };
 
+
         updateDashboard(lakeData);
 
         document.getElementById("status").innerHTML = "✅ Updated";
