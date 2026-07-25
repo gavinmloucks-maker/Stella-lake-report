@@ -95,14 +95,6 @@ strong {
     font-weight: bold;
 }
 
-.good {
-    color: white;
-}
-
-.warning {
-    opacity: .8;
-}
-
 .stars button {
     width: auto;
     padding: 8px 14px;
@@ -115,16 +107,8 @@ strong {
     padding: 8px 14px;
 }
 
-#funSlider {
+input[type="range"] {
     width: 100%;
-}
-
-#journalNotes {
-    width: 100%;
-    border-radius: 10px;
-    border: none;
-    padding: 10px;
-    font-family: inherit;
 }
 
 @media (max-width: 400px) {
