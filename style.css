@@ -106,10 +106,20 @@ strong {
     padding: 10px;
 }
 
-.best {
-    background: rgba(255,255,255,.35);
+.time.tier-1 {
+    background: rgba(255,255,255,.45);
     font-weight: bold;
 }
+
+.time.tier-2 {
+    background: rgba(255,255,255,.30);
+    font-weight: 600;
+}
+
+.time.tier-3 {
+    background: rgba(255,255,255,.18);
+}
+
 
 @media (max-width: 400px) {
     .container {
