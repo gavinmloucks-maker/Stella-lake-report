@@ -1,6 +1,3 @@
-// Animates a number counting up (or down) to its target value.
-// Stores the last value on the element itself so the next animation
-// starts from where the last one left off, not from 0 every time.
 function animateNumber(el, to, opts = {}) {
     if (!el) return;
 
@@ -12,7 +9,7 @@ function animateNumber(el, to, opts = {}) {
     function step(timestamp) {
         if (!start) start = timestamp;
         let progress = Math.min((timestamp - start) / duration, 1);
-        let eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        let eased = 1 - Math.pow(1 - progress, 3);
         let current = Math.round(from + (to - from) * eased);
 
         el.innerHTML = current + suffix;
@@ -43,11 +40,10 @@ function updateDashboard(data) {
 
     document.getElementById("winnerNote").innerHTML = `🏆 Best today: ${winner[0]}`;
 
-    // Restart the pulse animation on the hero card every update
     let heroEl = document.querySelector(".hero");
     if (heroEl) {
         heroEl.classList.remove("pulse");
-        void heroEl.offsetWidth; // forces a reflow so the animation can replay
+        void heroEl.offsetWidth;
         heroEl.classList.add("pulse");
     }
 
@@ -63,7 +59,7 @@ function updateDashboard(data) {
 
     let timelineTitleEl = document.getElementById("timelineTitle");
     if (timelineTitleEl) {
-        timelineTitleEl.innerHTML = data.dayOffset === 1 ? "📈 Tomorrow's Timeline" : "📈 Today's Timeline";
+        timelineTitleEl.innerHTML = `📈 ${dayLabel(data.dayOffset)}'s Timeline`;
     }
     renderTimeline(data.hours, SETTINGS.preferences.mainActivity);
 }
@@ -83,11 +79,20 @@ function updateConditions(data) {
 
     let uvEl = document.getElementById("uvDisplay");
     if (uvEl && data.current.uv != null) uvEl.innerHTML = Math.round(data.current.uv);
+
+    updateWaterTrend();
+}
+
+function updateWaterTrend() {
+    let el = document.getElementById("waterTrendNote");
+    if (!el) return;
+    let trend = getWaterTrend();
+    el.innerHTML = trend ? trend.label : "";
 }
 
 function updateHighs(data) {
     let titleEl = document.getElementById("highsTitle");
-    if (titleEl) titleEl.innerHTML = data.dayOffset === 1 ? "📈 Tomorrow's Highs" : "📈 Today's Highs";
+    if (titleEl) titleEl.innerHTML = `📈 ${dayLabel(data.dayOffset)}'s Highs`;
 
     if (!data.hours || data.hours.length === 0) return;
 
@@ -118,9 +123,9 @@ function updateGreeting(data, score) {
         ? `${formatLakeTime(window.start)}–${formatLakeTime(window.end)}`
         : "later in the day";
 
-    if (data.dayOffset === 1) {
+    if (data.dayOffset > 0) {
         el.innerHTML = `
-            🌊 Tomorrow's best ${activityLabels[activity]} window is ${windowText}.<br>
+            🌊 ${dayLabel(data.dayOffset)}'s best ${activityLabels[activity]} window is ${windowText}.<br>
             Lake Score: ${score}/100<br>
             ${score >= 90 ? "Glass conditions expected." : getLakeMood(score)}
         `;
@@ -178,6 +183,36 @@ function updateSunsetPredictor(data) {
         "💨 Breezy — may not be glassy.";
 }
 
+function renderOutlook(outlook, selectedOffset) {
+    let el = document.getElementById("outlookStrip");
+    if (!el || !outlook || outlook.length === 0) return;
+
+    el.innerHTML = outlook.map(day => {
+        let activeClass = day.dayOffset === selectedOffset ? " active" : "";
+        let scoreText = day.score != null ? day.score : "--";
+        return `
+            <button class="outlookDay${activeClass}" onclick="setDay(${day.dayOffset})">
+                <span class="outlookLabel">${day.label}</span>
+                <span class="outlookScore">${scoreText}</span>
+            </button>
+        `;
+    }).join("");
+}
+
+function weatherIcon(code) {
+    if (code === 0) return "☀️";
+    if (code === 1 || code === 2) return "🌤️";
+    if (code === 3) return "☁️";
+    if (code >= 45 && code <= 48) return "🌫️";
+    if (code >= 51 && code <= 57) return "🌦️";
+    if (code >= 61 && code <= 67) return "🌧️";
+    if (code >= 71 && code <= 77) return "🌨️";
+    if (code >= 80 && code <= 82) return "🌦️";
+    if (code >= 85 && code <= 86) return "🌨️";
+    if (code >= 95) return "⛈️";
+    return "🌡️";
+}
+
 function renderTimeline(hours, activity) {
     let el = document.getElementById("timeline");
     if (!el || !hours || hours.length === 0) return;
@@ -198,6 +233,7 @@ function renderTimeline(hours, activity) {
 
         return `
             <tr class="${tierClass}">
+                <td>${weatherIcon(hour.weatherCode)}</td>
                 <td>${formatLakeTime(t.time)}</td>
                 <td>${Math.round(hour.air)}°</td>
                 <td>${Math.round(hour.wind)} mph</td>
@@ -209,7 +245,7 @@ function renderTimeline(hours, activity) {
     el.innerHTML = `
         <table class="timelineTable">
             <thead>
-                <tr><th>Time</th><th>Air</th><th>Wind</th><th>Score</th></tr>
+                <tr><th></th><th>Time</th><th>Air</th><th>Wind</th><th>Score</th></tr>
             </thead>
             <tbody>${rows}</tbody>
         </table>
