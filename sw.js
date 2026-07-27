@@ -1,4 +1,4 @@
-const CACHE_NAME = "stella-ai-v2";
+const CACHE_NAME = "stella-ai-v3";
 const ASSETS = [
     "./",
     "./index.html",
