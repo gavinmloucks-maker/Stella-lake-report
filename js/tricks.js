@@ -1,34 +1,90 @@
 // 🌊 Stella AI (Stella Lake Report V2.2)
 // Wakeboard Tricks Checklist — progress + uploaded clips/photos
+// Also includes a separate Grabs checklist with a grab "key" (glossary).
 
-const WAKEBOARD_TRICKS = [
-    { id: "surface180", name: "Surface 180", category: "Beginner" },
-    { id: "ollie", name: "Ollie", category: "Beginner" },
-    { id: "toesideButterslide", name: "Toeside Butterslide", category: "Beginner" },
-    { id: "heelsideButterslide", name: "Heelside Butterslide", category: "Beginner" },
-    { id: "oneFooter", name: "One-Foot Air", category: "Beginner" },
+function slugify(str) {
+    return "t_" + str.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+}
 
-    { id: "backroll", name: "Backroll", category: "Intermediate" },
-    { id: "airRaley", name: "Air Raley", category: "Intermediate" },
-    { id: "air180", name: "180 (Air)", category: "Intermediate" },
-    { id: "tantrum", name: "Tantrum", category: "Intermediate" },
-    { id: "scarecrow", name: "Scarecrow", category: "Intermediate" },
+const TRICK_CATEGORY_SOURCE = {
+    "Start Here": [
+        "Ollie", "Surface 180", "Surface 360", "Wake Jump", "Wake to Wake",
+        "Toeside Wake to Wake", "Wake to Wake 180", "Toeside Wake to Wake 180",
+        "Half Cab", "Switch 180", "Toeside 180", "Ollie 180", "Ollie 360",
+        "Jump 180", "Jump 360"
+    ],
+    "Next Up": [
+        "Indy", "Slob", "Melon", "Method", "Mute", "Tailgrab", "Nosegrab",
+        "Stalefish", "Roast Beef", "Tindy", "Seatbelt", "S-Mobe",
+        "Toeside Ollie", "Toeside Jump", "Wake to Wake Indy", "Wake to Wake Melon",
+        "Wake to Wake Method", "Wake to Wake Roast Beef", "Wake to Wake Slob",
+        "Wake to Wake Tindy", "Wake to Wake Mute"
+    ],
+    "Progressing Further": [
+        "Switch Wake to Wake", "Switch Wake to Wake 180", "Switch Wake to Wake 360",
+        "Blind Judge", "Mute Wake to Wake 180", "Indy Wake to Wake 180",
+        "Melon Wake to Wake 180", "Method Wake to Wake 180", "Backside 180",
+        "Frontside 180", "Backside 360", "Frontside 360", "Heelside 360",
+        "Toeside 360", "Raley", "TS Raley", "Backroll", "Tantrum", "Krypt",
+        "Mobius", "Crow Mobe", "S-Bend", "Pete Rose", "Wrapped Backside 180",
+        "Wrapped Frontside 180"
+    ],
+    "Bigger Tricks": [
+        "Crow Mobe 540", "Mobe", "Mobe 540", "Tantrum to Blind",
+        "Backroll to Blind", "Krypt to Blind", "Raley to Blind", "Roll to Blind",
+        "Scarecrow", "Backside 540", "Frontside 540", "Switch Backside 180",
+        "Switch Frontside 180", "Switch Backside 360", "Switch Frontside 360",
+        "Toeside Backroll", "Toeside Frontroll", "KGB", "Whirlybird",
+        "Switch Mobe", "Switch Mobe 540", "Heelside Backside 720",
+        "Toeside Backside 720"
+    ]
+};
 
-    { id: "raley", name: "Raley", category: "Advanced" },
-    { id: "kgb", name: "KGB", category: "Advanced" },
-    { id: "tantrumBlind", name: "Tantrum to Blind", category: "Advanced" },
-    { id: "360", name: "360", category: "Advanced" },
-    { id: "whirlybird", name: "Whirlybird", category: "Advanced" },
+const TRICKS_CATEGORY_ORDER = ["Start Here", "Next Up", "Progressing Further", "Bigger Tricks"];
 
-    { id: "doubleBackroll", name: "Double Backroll", category: "Invert / Pro" },
-    { id: "mobydick", name: "Moby Dick", category: "Invert / Pro" },
-    { id: "frontflip", name: "Front Flip", category: "Invert / Pro" },
-    { id: "krypto", name: "Krypto", category: "Invert / Pro" }
+const WAKEBOARD_TRICKS = [];
+for (let category of TRICKS_CATEGORY_ORDER) {
+    for (let name of TRICK_CATEGORY_SOURCE[category]) {
+        WAKEBOARD_TRICKS.push({ id: slugify(name), name: name, category: category });
+    }
+}
+
+// --- Grabs (a separate checklist) with a "key" describing each grab ---
+const GRAB_KEY = [
+    { name: "Indy", key: "Trailing (back) hand grabs the heelside edge between the bindings." },
+    { name: "Mute", key: "Leading (front) hand grabs the toeside edge between the bindings." },
+    { name: "Melon", key: "Leading (front) hand grabs the heelside edge between the bindings." },
+    { name: "Method", key: "Trailing (back) hand grabs the toeside edge, board tweaked out toeside." },
+    { name: "Slob", key: "Leading (front) hand grabs the heelside edge, board tweaked heelside." },
+    { name: "Tindy", key: "Toeside version of an Indy — back hand grabs the toeside edge between the bindings." },
+    { name: "Roast Beef", key: "Back hand reaches between the legs to grab the heelside edge behind the back foot." },
+    { name: "Tailgrab", key: "Either hand grabs the tail (back tip) of the board." },
+    { name: "Nosegrab", key: "Either hand grabs the nose (front tip) of the board." },
+    { name: "Stalefish", key: "Trailing (back) hand grabs the heelside edge behind the back foot." },
+    { name: "Seatbelt", key: "Front hand reaches across the body to grab the toeside edge behind the back foot." },
+    { name: "Crail", key: "Front hand grabs the toeside edge in front of the front foot." },
+    { name: "Japan", key: "Front hand grabs the toeside edge between the feet while tweaking the board and bending the front knee." },
+    { name: "Wrapped Indy", key: "An Indy grab pulled tighter and held longer for extra style." },
+    { name: "Wrapped Mute", key: "A Mute grab pulled tighter and held longer for extra style." },
+    { name: "Wrapped Melon", key: "A Melon grab pulled tighter and held longer for extra style." },
+    { name: "Wrapped Method", key: "A Method grab pulled tighter and held longer for extra style." },
+    { name: "Wrapped Slob", key: "A Slob grab pulled tighter and held longer for extra style." },
+    { name: "Wrapped Tindy", key: "A Tindy grab pulled tighter and held longer for extra style." },
+    { name: "Wrapped Roast Beef", key: "A Roast Beef grab pulled tighter and held longer for extra style." },
+    { name: "Wrapped Tailgrab", key: "A Tailgrab pulled tighter and held longer for extra style." },
+    { name: "Wrapped Nosegrab", key: "A Nosegrab pulled tighter and held longer for extra style." },
+    { name: "Wrapped Stalefish", key: "A Stalefish grab pulled tighter and held longer for extra style." },
+    { name: "Wrapped Seatbelt", key: "A Seatbelt grab pulled tighter and held longer for extra style." }
 ];
 
-const TRICKS_CATEGORY_ORDER = ["Beginner", "Intermediate", "Advanced", "Invert / Pro"];
+const WAKEBOARD_GRABS = GRAB_KEY.map(g => ({
+    id: "g_" + g.name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, ""),
+    name: g.name,
+    key: g.key
+}));
 
 // --- Checked/notes state (small, lives in localStorage like the journal) ---
+// Shared store for both tricks and grabs — ids are prefixed (t_ / g_) so they never collide.
 function getTrickProgress() {
     return JSON.parse(localStorage.getItem("trickProgress")) || {};
 }
@@ -37,14 +93,39 @@ function setTrickProgress(progress) {
     localStorage.setItem("trickProgress", JSON.stringify(progress));
 }
 
+function todayISO() {
+    let d = new Date();
+    let month = String(d.getMonth() + 1).padStart(2, "0");
+    let day = String(d.getDate()).padStart(2, "0");
+    return `${d.getFullYear()}-${month}-${day}`;
+}
+
 function toggleTrick(id) {
     let progress = getTrickProgress();
     let entry = progress[id] || {};
     entry.checked = !entry.checked;
-    entry.checkedDate = entry.checked ? new Date().toLocaleDateString() : null;
+    entry.checkedDate = entry.checked ? (entry.checkedDate || todayISO()) : null;
     progress[id] = entry;
     setTrickProgress(progress);
     renderTricksScreen();
+    renderGrabsScreen();
+}
+
+// Lets the user change the date a trick/grab was landed via a date picker.
+function setTrickDate(id, dateValue) {
+    if (!dateValue) return;
+    let progress = getTrickProgress();
+    let entry = progress[id] || {};
+    entry.checked = true;
+    entry.checkedDate = dateValue;
+    progress[id] = entry;
+    setTrickProgress(progress);
+}
+
+function toggleGrabKey() {
+    let el = document.getElementById("grabKeyBox");
+    if (!el) return;
+    el.style.display = (el.style.display === "none" || !el.style.display) ? "block" : "none";
 }
 
 // --- Media storage (photos/clips) — IndexedDB, since clips can be a few MB
@@ -114,9 +195,63 @@ async function handleTrickUpload(id, inputEl) {
     }
     inputEl.value = "";
     renderTricksScreen();
+    renderGrabsScreen();
 }
 
-// --- Rendering ---
+// --- Shared row renderer (used by both the Tricks list and the Grabs list) ---
+function renderTrickRowHtml(item, entry) {
+    let checked = !!(entry && entry.checked);
+    let dateVal = (entry && entry.checkedDate) ? entry.checkedDate : todayISO();
+
+    let html = `<div class="trickRow ${checked ? "trickDone" : ""}">`;
+    html += `<div class="trickRowTop" onclick="toggleTrick('${item.id}')">`;
+    html += `<span class="trickCheckbox">${checked ? "✅" : "⬜"}</span>`;
+    html += `<span class="trickName">${item.name}</span>`;
+    html += `</div>`;
+
+    if (checked) {
+        html += `<div class="trickDateRow">`;
+        html += `<label>Landed on</label>`;
+        html += `<input type="date" class="trickDateInput" value="${dateVal}" onclick="event.stopPropagation()" onchange="setTrickDate('${item.id}', this.value)">`;
+        html += `</div>`;
+        html += `<div class="trickMedia" id="trickMedia-${item.id}">Loading clips...</div>`;
+        html += `<label class="trickUploadBtn">📸 Add photo/clip`;
+        html += `<input type="file" accept="image/*,video/*" multiple style="display:none" onchange="handleTrickUpload('${item.id}', this)">`;
+        html += `</label>`;
+    }
+
+    html += `</div>`;
+    return html;
+}
+
+async function fillTrickMediaThumbs(items, progress) {
+    for (let item of items) {
+        let entry = progress[item.id];
+        if (!entry || !entry.checked) continue;
+
+        let mediaEl = document.getElementById(`trickMedia-${item.id}`);
+        if (!mediaEl) continue;
+
+        let media = await getTrickMediaForId(item.id);
+        if (media.length === 0) {
+            mediaEl.innerHTML = "";
+            continue;
+        }
+
+        let thumbHtml = "";
+        for (let m of media) {
+            let url = URL.createObjectURL(m.blob);
+            if (m.type.startsWith("video")) {
+                thumbHtml += `<video class="trickThumb" src="${url}" controls></video>`;
+            } else {
+                thumbHtml += `<img class="trickThumb" src="${url}">`;
+            }
+        }
+        mediaEl.innerHTML = thumbHtml;
+    }
+}
+
+// --- Rendering: Tricks screen ---
 async function renderTricksScreen() {
     let container = document.getElementById("tricksList");
     if (!container) return;
@@ -135,62 +270,63 @@ async function renderTricksScreen() {
     }
 
     let html = "";
-
     for (let category of TRICKS_CATEGORY_ORDER) {
         let tricksInCategory = WAKEBOARD_TRICKS.filter(t => t.category === category);
         if (tricksInCategory.length === 0) continue;
 
         html += `<h3 class="trickCategoryTitle">${category}</h3>`;
-
         for (let trick of tricksInCategory) {
-            let entry = progress[trick.id] || {};
-            let checked = !!entry.checked;
-
-            html += `<div class="trickRow ${checked ? "trickDone" : ""}">`;
-            html += `<div class="trickRowTop" onclick="toggleTrick('${trick.id}')">`;
-            html += `<span class="trickCheckbox">${checked ? "✅" : "⬜"}</span>`;
-            html += `<span class="trickName">${trick.name}</span>`;
-            if (checked && entry.checkedDate) {
-                html += `<span class="trickDate">${entry.checkedDate}</span>`;
-            }
-            html += `</div>`;
-
-            if (checked) {
-                html += `<div class="trickMedia" id="trickMedia-${trick.id}">Loading clips...</div>`;
-                html += `<label class="trickUploadBtn">📸 Add photo/clip`;
-                html += `<input type="file" accept="image/*,video/*" multiple style="display:none" onchange="handleTrickUpload('${trick.id}', this)">`;
-                html += `</label>`;
-            }
-
-            html += `</div>`;
+            html += renderTrickRowHtml(trick, progress[trick.id]);
         }
     }
 
     container.innerHTML = html;
+    await fillTrickMediaThumbs(WAKEBOARD_TRICKS, progress);
+}
 
-    // Fill in media thumbnails for checked tricks (async, after the list is in the DOM)
-    for (let trick of WAKEBOARD_TRICKS) {
-        let entry = progress[trick.id];
-        if (!entry || !entry.checked) continue;
+// --- Rendering: Grabs screen ---
+async function renderGrabsScreen() {
+    let container = document.getElementById("grabsList");
+    if (!container) return;
 
-        let mediaEl = document.getElementById(`trickMedia-${trick.id}`);
-        if (!mediaEl) continue;
+    let progress = getTrickProgress();
+    let done = WAKEBOARD_GRABS.filter(g => progress[g.id] && progress[g.id].checked).length;
 
-        let items = await getTrickMediaForId(trick.id);
-        if (items.length === 0) {
-            mediaEl.innerHTML = "";
-            continue;
-        }
-
-        let thumbHtml = "";
-        for (let item of items) {
-            let url = URL.createObjectURL(item.blob);
-            if (item.type.startsWith("video")) {
-                thumbHtml += `<video class="trickThumb" src="${url}" controls></video>`;
-            } else {
-                thumbHtml += `<img class="trickThumb" src="${url}">`;
-            }
-        }
-        mediaEl.innerHTML = thumbHtml;
+    let summaryEl = document.getElementById("grabsSummary");
+    if (summaryEl) {
+        summaryEl.innerHTML = `${done} grabs landed`;
     }
+
+    let keyBox = document.getElementById("grabKeyBox");
+    if (keyBox && !keyBox.dataset.filled) {
+        let keyHtml = "";
+        for (let g of GRAB_KEY) {
+            keyHtml += `<div class="grabKeyRow"><span class="grabKeyName">${g.name}</span><span class="grabKeyDesc">${g.key}</span></div>`;
+        }
+        keyBox.innerHTML = keyHtml;
+        keyBox.dataset.filled = "1";
+    }
+
+    let html = "";
+    for (let grab of WAKEBOARD_GRABS) {
+        html += renderTrickRowHtml(grab, progress[grab.id]);
+    }
+
+    container.innerHTML = html;
+    await fillTrickMediaThumbs(WAKEBOARD_GRABS, progress);
+}
+
+// --- Subview toggle (Tricks vs Grabs) ---
+function showTrickSubview(which) {
+    let tricksBox = document.getElementById("tricksSubview");
+    let grabsBox = document.getElementById("grabsSubview");
+    if (tricksBox) tricksBox.style.display = which === "tricks" ? "block" : "none";
+    if (grabsBox) grabsBox.style.display = which === "grabs" ? "block" : "none";
+
+    document.querySelectorAll(".trickSubviewBtn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.subview === which);
+    });
+
+    if (which === "tricks") renderTricksScreen();
+    if (which === "grabs") renderGrabsScreen();
 }
