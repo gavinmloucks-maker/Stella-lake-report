@@ -2,6 +2,7 @@ function buildHourlyConditions(forecast, water) {
     return forecast.map(hour => ({
         time: hour.time,
         air: hour.air,
+        feelsLike: hour.feelsLike,
         water: water,
         wind: hour.wind,
         gust: hour.gust,
