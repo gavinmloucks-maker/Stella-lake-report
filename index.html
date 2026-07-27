@@ -19,6 +19,8 @@
 
 <div class="container">
 
+<div id="screen-report" class="screen active">
+
 <h1>🌊 Stella AI</h1>
 <p class="subtitle">Three Lakes, Wisconsin</p>
 
@@ -112,6 +114,32 @@
 </div>
 
 </div>
+<!-- /screen-report -->
+
+<div id="screen-tricks" class="screen">
+
+<h1>🏄 Trick Log</h1>
+<p class="subtitle">Wakeboarding</p>
+
+<div class="card hero">
+<h2>Progress</h2>
+<p id="tricksSummary" class="score" style="font-size:32px;">0 / 0 tricks landed</p>
+<div class="progressTrack"><div id="tricksProgressBar" class="progressFill"></div></div>
+</div>
+
+<div class="card">
+<div id="tricksList">Loading tricks...</div>
+</div>
+
+</div>
+<!-- /screen-tricks -->
+
+<div class="bottomNav">
+<button class="navBtn active" data-screen="screen-report" onclick="showScreen('screen-report')">🌊 Report</button>
+<button class="navBtn" data-screen="screen-tricks" onclick="showScreen('screen-tricks')">🏄 Tricks</button>
+</div>
+
+</div>
 
 <script src="data/fortunes.js"></script>
 
@@ -119,6 +147,7 @@
 <script src="js/api.js"></script>
 <script src="js/scoring.js"></script>
 <script src="js/planner.js"></script>
+<script src="js/tricks.js"></script>
 <script src="js/watertrend.js"></script>
 <script src="js/notifications.js"></script>
 <script src="js/sound.js"></script>
@@ -126,6 +155,17 @@
 <script src="./js/app.js?v=999"></script>
 
 <script>
+function showScreen(id) {
+    document.querySelectorAll(".screen").forEach(el => el.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+
+    document.querySelectorAll(".navBtn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.screen === id);
+    });
+
+    if (id === "screen-tricks") renderTricksScreen();
+}
+
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
         navigator.serviceWorker.register("sw.js").catch(err => console.log("SW registration failed:", err));
