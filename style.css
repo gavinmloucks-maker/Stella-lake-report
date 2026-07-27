@@ -349,3 +349,50 @@ html.theme-forest body {
     border-radius: 10px;
     background: rgba(0,0,0,.2);
 }
+
+.trickDateRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding-left: 28px;
+    font-size: 13px;
+    opacity: .85;
+}
+
+.trickDateInput {
+    background: rgba(255,255,255,.18);
+    border: none;
+    border-radius: 8px;
+    padding: 4px 8px;
+    color: inherit;
+    font-size: 13px;
+    font-family: inherit;
+}
+
+.trickSubviewBtn {
+    flex: 1;
+}
+
+.grabKeyRow {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+    text-align: left;
+}
+
+.grabKeyRow:last-child {
+    border-bottom: none;
+}
+
+.grabKeyName {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.grabKeyDesc {
+    font-size: 12px;
+    opacity: .75;
+}
