@@ -13,8 +13,6 @@ async function getThingSpeakData() {
     }
 }
 
-// Fetches multi-day hourly forecast, split into per-day buckets.
-// dayCount: how many days ahead to include (today = day 0).
 async function getMultiDayForecast(dayCount = 5) {
     try {
         const lat = SETTINGS.location.latitude;
@@ -24,7 +22,7 @@ async function getMultiDayForecast(dayCount = 5) {
         const url =
             `https://api.open-meteo.com/v1/forecast` +
             `?latitude=${lat}&longitude=${lon}` +
-            `&hourly=temperature_2m,wind_speed_10m,wind_gusts_10m,cloud_cover,precipitation_probability,relative_humidity_2m,uv_index,weather_code` +
+            `&hourly=temperature_2m,apparent_temperature,wind_speed_10m,wind_gusts_10m,cloud_cover,precipitation_probability,relative_humidity_2m,uv_index,weather_code` +
             `&daily=sunrise,sunset` +
             `&temperature_unit=fahrenheit&wind_speed_unit=mph` +
             `&timezone=${tz}&forecast_days=${dayCount}`;
@@ -57,6 +55,7 @@ async function getMultiDayForecast(dayCount = 5) {
                 hours.push({
                     time: date,
                     air: data.hourly.temperature_2m[i],
+                    feelsLike: data.hourly.apparent_temperature[i],
                     wind: data.hourly.wind_speed_10m[i],
                     gust: data.hourly.wind_gusts_10m[i],
                     clouds: data.hourly.cloud_cover[i],
