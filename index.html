@@ -121,6 +121,12 @@
 <h1>🏄 Trick Log</h1>
 <p class="subtitle">Wakeboarding</p>
 
+<div class="pillRow">
+<button class="trickSubviewBtn active" data-subview="tricks" onclick="showTrickSubview('tricks')">Tricks</button>
+<button class="trickSubviewBtn" data-subview="grabs" onclick="showTrickSubview('grabs')">Grabs</button>
+</div>
+
+<div id="tricksSubview">
 <div class="card hero">
 <h2>Progress</h2>
 <p id="tricksSummary" class="score" style="font-size:32px;">0 / 0 tricks landed</p>
@@ -130,6 +136,23 @@
 <div class="card">
 <div id="tricksList">Loading tricks...</div>
 </div>
+</div>
+<!-- /tricksSubview -->
+
+<div id="grabsSubview" style="display:none;">
+<div class="card hero">
+<h2>Grabs</h2>
+<p id="grabsSummary" class="score" style="font-size:32px;">0 grabs landed</p>
+<button class="trickUploadBtn" style="margin-top:10px;" onclick="toggleGrabKey()">📖 Grab Key</button>
+</div>
+
+<div class="card" id="grabKeyBox" style="display:none;">Loading key...</div>
+
+<div class="card">
+<div id="grabsList">Loading grabs...</div>
+</div>
+</div>
+<!-- /grabsSubview -->
 
 </div>
 <!-- /screen-tricks -->
