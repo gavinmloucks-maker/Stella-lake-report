@@ -186,7 +186,7 @@ function showScreen(id) {
         btn.classList.toggle("active", btn.dataset.screen === id);
     });
 
-    if (id === "screen-tricks") renderTricksScreen();
+    if (id === "screen-tricks") { renderTricksScreen(); renderGrabsScreen(); }
 }
 
 if ("serviceWorker" in navigator) {
