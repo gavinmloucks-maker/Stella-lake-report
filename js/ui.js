@@ -108,7 +108,7 @@ function updateHighs(data) {
     let peakUvHour = data.hours.reduce((a, b) => (b.uv > a.uv ? b : a));
 
     let highAirEl = document.getElementById("highAirDisplay");
-    if (highAirEl) highAirEl.innerHTML = `${Math.round(highAirHour.air)}° @ ${formatLakeTime(highAirHour.time)}`;
+    if (highAirEl) highAirEl.innerHTML = `${Math.round(highAirHour.air)}° (feels ${Math.round(highAirHour.feelsLike)}°) @ ${formatLakeTime(highAirHour.time)}`;
 
     let peakUvEl = document.getElementById("highsPeakUvDisplay");
     if (peakUvEl) peakUvEl.innerHTML = `${Math.round(peakUvHour.uv)} @ ${formatLakeTime(peakUvHour.time)}`;
