@@ -26,12 +26,14 @@ async function startLakeReport() {
 
         let current = {
             air: sensor.air,
+            feelsLike: nowHour ? nowHour.feelsLike : null,
             water: sensor.water,
             wind: nowHour ? nowHour.wind : null,
             gust: nowHour ? nowHour.gust : null,
             clouds: nowHour ? nowHour.clouds : null,
             uv: nowHour ? nowHour.uv : null
         };
+
 
         let hours = buildHourlyConditions(selectedDay.hours, sensor.water);
 
