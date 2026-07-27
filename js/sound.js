@@ -70,8 +70,13 @@ function playTap() {
 
 // --- Background music (real audio file, controlled via the <audio> tag) ---
 
+// Defaults to ON the very first time the app runs (no saved preference
+// yet), so it tries to auto-start. After that, it remembers whatever
+// you last set it to.
 function ambientEnabled() {
-    return localStorage.getItem("stellaAmbientEnabled") === "true";
+    let stored = localStorage.getItem("stellaAmbientEnabled");
+    if (stored === null) return true;
+    return stored === "true";
 }
 
 function toggleAmbient() {
@@ -102,9 +107,7 @@ function stopAmbient() {
     audio.currentTime = 0;
 }
 
-// Plays a tap sound for ANY button press anywhere in the app — covers
-// buttons that exist now and any added later (like the outlook strip,
-// which gets rebuilt every refresh), without wiring each one by hand.
+// Plays a tap sound for ANY button press anywhere in the app.
 document.addEventListener("click", (e) => {
     let btn = e.target.closest("button");
     if (btn) playTap();
@@ -114,6 +117,10 @@ window.addEventListener("load", () => {
     updateSoundButton();
     updateAmbientButton();
     if (ambientEnabled()) {
+        // Try immediately — succeeds on repeat visits in some browsers.
+        startAmbient();
+        // Retry on the first tap of anything, in case the browser
+        // blocked the attempt above (very common on a first visit).
         document.body.addEventListener("click", function starter() {
             startAmbient();
             document.body.removeEventListener("click", starter);
