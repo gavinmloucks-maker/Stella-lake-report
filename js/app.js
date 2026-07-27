@@ -56,19 +56,30 @@ async function startLakeReport() {
 
         updateDashboard(lakeData);
 
+        // Outlook strip now computes the SAME blended Lake Score the
+        // hero card shows (average of all 4 activities at that day's
+        // best overall hour) — not just the selected activity's score —
+        // so the number here matches what you see after tapping in.
         let outlook = days.map(day => {
             let dayHours = buildHourlyConditions(day.hours, sensor.water);
-            let dayBest = dayHours.length > 0 ? findBestTime(dayHours, SETTINGS.preferences.mainActivity) : null;
-            return { dayOffset: day.dayOffset, label: dayLabel(day.dayOffset), score: dayBest ? dayBest.score : null };
+
+            if (dayHours.length === 0) {
+                return { dayOffset: day.dayOffset, label: dayLabel(day.dayOffset), score: null };
+            }
+
+            let dayBestAll = findAllBestTimes(dayHours);
+            let dayOverall = getOverallBest(dayBestAll);
+            let dayActivities = calculateAllActivities(dayOverall.data);
+            let dayLakeScore = Math.round(
+                (dayActivities.wakeboard + dayActivities.surf + dayActivities.ski + dayActivities.tube) / 4
+            );
+
+            return { dayOffset: day.dayOffset, label: dayLabel(day.dayOffset), score: dayLakeScore };
         });
 
         renderOutlook(outlook, selectedDayOffset);
 
         document.getElementById("status").innerHTML = "✅ Updated";
-
-        if (typeof maybeNotifyGreatConditions === "function") {
-            maybeNotifyGreatConditions();
-        }
     } catch (error) {
         console.log(error);
         document.getElementById("status").innerHTML = "❌ " + error.message;
@@ -88,13 +99,11 @@ function formatLakeTime(time) {
 }
 
 function setDay(offset) {
-    if (typeof playTap === "function") playTap();
     selectedDayOffset = offset;
     startLakeReport();
 }
 
 function loadData() {
-    if (typeof playTap === "function") playTap();
     startLakeReport();
 }
 
