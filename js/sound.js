@@ -15,7 +15,6 @@ function toggleSound() {
     let enabled = !soundEnabled();
     localStorage.setItem("stellaSoundEnabled", enabled ? "true" : "false");
     updateSoundButton();
-    if (enabled) playChime();
 }
 
 function updateSoundButton() {
@@ -69,8 +68,7 @@ function playTap() {
     }
 }
 
-let ambientSource = null;
-let ambientGain = null;
+// --- Background music (real audio file, controlled via the <audio> tag) ---
 
 function ambientEnabled() {
     return localStorage.getItem("stellaAmbientEnabled") === "true";
@@ -87,51 +85,30 @@ function updateAmbientButton() {
     let btn = document.getElementById("ambientBtn");
     if (!btn) return;
     btn.classList.toggle("active", ambientEnabled());
-    btn.innerHTML = ambientEnabled() ? "🎵 Ambient On" : "🎵 Ambient Off";
+    btn.innerHTML = ambientEnabled() ? "🎵 Music On" : "🎵 Music Off";
 }
 
-// Soft looping water-like ambience made from filtered noise —
-// no audio file needed, nothing to host or license.
 function startAmbient() {
-    if (ambientSource) return;
-    try {
-        let ctx = getAudioContext();
-
-        let bufferSize = 2 * ctx.sampleRate;
-        let buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-        let data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-            data[i] = Math.random() * 2 - 1;
-        }
-
-        ambientSource = ctx.createBufferSource();
-        ambientSource.buffer = buffer;
-        ambientSource.loop = true;
-
-        let filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.value = 500;
-
-        ambientGain = ctx.createGain();
-        ambientGain.gain.value = 0.04;
-
-        ambientSource.connect(filter);
-        filter.connect(ambientGain);
-        ambientGain.connect(ctx.destination);
-
-        ambientSource.start();
-    } catch (e) {
-        console.log("Ambient error:", e);
-    }
+    let audio = document.getElementById("ambientAudio");
+    if (!audio) return;
+    audio.volume = 0.3;
+    audio.play().catch(e => console.log("Playback blocked until user interacts:", e));
 }
 
 function stopAmbient() {
-    if (ambientSource) {
-        try { ambientSource.stop(); } catch (e) {}
-        ambientSource.disconnect();
-        ambientSource = null;
-    }
+    let audio = document.getElementById("ambientAudio");
+    if (!audio) return;
+    audio.pause();
+    audio.currentTime = 0;
 }
+
+// Plays a tap sound for ANY button press anywhere in the app — covers
+// buttons that exist now and any added later (like the outlook strip,
+// which gets rebuilt every refresh), without wiring each one by hand.
+document.addEventListener("click", (e) => {
+    let btn = e.target.closest("button");
+    if (btn) playTap();
+});
 
 window.addEventListener("load", () => {
     updateSoundButton();
