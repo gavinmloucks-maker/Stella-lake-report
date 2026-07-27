@@ -70,6 +70,10 @@ function updateDashboard(data) {
 
 function updateConditions(data) {
     document.getElementById("airDisplay").innerHTML = Math.round(data.current.air) + "°F";
+    let feelsLikeEl = document.getElementById("feelsLikeDisplay");
+if (feelsLikeEl && data.current.feelsLike != null) {
+    feelsLikeEl.innerHTML = `Feels ${Math.round(data.current.feelsLike)}°`;
+}
     document.getElementById("waterDisplay").innerHTML = Math.round(data.current.water) + "°F";
 
     let windEl = document.getElementById("windDisplay");
