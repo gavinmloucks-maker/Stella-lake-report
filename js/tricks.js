@@ -1,4 +1,4 @@
-Alert("hi");
+alert("hi");
 // 🌊 Stella AI (Stella Lake Report V2.2)
 // Wakeboard Tricks Checklist — progress + uploaded clips/photos
 // Also includes a separate Grabs checklist (with wake-to-wake tracking) and a grab key (glossary + photos).
