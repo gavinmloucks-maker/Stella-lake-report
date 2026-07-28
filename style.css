@@ -374,11 +374,111 @@ html.theme-forest body {
     flex: 1;
 }
 
+.wakeToWakeRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    margin-top: 8px;
+    padding-left: 28px;
+}
+
+.wakeToWakeLabel {
+    font-size: 13px;
+    opacity: .85;
+}
+
+.thumbWrap {
+    position: relative;
+    width: 90px;
+    height: 90px;
+}
+
+.thumbWrap .trickThumb {
+    width: 90px;
+    height: 90px;
+    cursor: pointer;
+}
+
+.thumbDeleteBtn {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(0,0,0,.65);
+    color: #fff;
+    border: none;
+    font-size: 12px;
+    line-height: 22px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.mediaLightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.9);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+}
+
+.mediaLightboxContent {
+    max-width: 92vw;
+    max-height: 88vh;
+}
+
+.mediaLightboxContent img,
+.mediaLightboxContent video {
+    max-width: 92vw;
+    max-height: 88vh;
+    border-radius: 10px;
+    display: block;
+}
+
+.mediaLightboxClose {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.18);
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.grabKeySectionLabel {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    opacity: .6;
+    margin-top: 10px;
+}
+
+.grabKeyImageArea {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.grabKeyImagePlaceholder {
+    font-size: 12px;
+    opacity: .55;
+    margin: 0;
+}
+
 .grabKeyRow {
     display: flex;
     flex-direction: column;
     gap: 2px;
-    padding: 8px 0;
+    padding: 12px 0;
     border-bottom: 1px solid rgba(255,255,255,.12);
     text-align: left;
 }
@@ -389,7 +489,7 @@ html.theme-forest body {
 
 .grabKeyName {
     font-weight: bold;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .grabKeyDesc {
