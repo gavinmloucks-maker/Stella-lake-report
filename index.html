@@ -143,10 +143,22 @@
 <div class="card hero">
 <h2>Grabs</h2>
 <p id="grabsSummary" class="score" style="font-size:32px;">0 grabs landed</p>
-<button class="trickUploadBtn" style="margin-top:10px;" onclick="toggleGrabKey()">📖 Grab Key</button>
+<div class="pillRow" style="margin-top:10px;">
+<button onclick="toggleGrabKey()">📖 Grab Key</button>
+<button onclick="toggleGrabKeyImage()">🖼️ Grab Key Image</button>
+</div>
 </div>
 
 <div class="card" id="grabKeyBox" style="display:none;">Loading key...</div>
+
+<!-- Single reference photo showing all the grabs — drop your own image file in
+     the project (e.g. assets/grab-key.jpg) and update the src below to match. -->
+<div class="card" id="grabKeyImageBox" style="display:none;">
+<img src="assets/grab-key.jpg" alt="Grab Key" class="grabKeyImageFull"
+     onclick="openLightbox('assets/grab-key.jpg', 'image')"
+     onerror="this.style.display='none'; document.getElementById('grabKeyImageMissing').style.display='block';">
+<p id="grabKeyImageMissing" style="display:none; opacity:.7; margin:0;">Add your grab key photo at assets/grab-key.jpg</p>
+</div>
 
 <div class="card">
 <div id="grabsList">Loading grabs...</div>
