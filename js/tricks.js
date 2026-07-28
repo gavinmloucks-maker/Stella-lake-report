@@ -133,6 +133,12 @@ function toggleGrabKey() {
     el.style.display = (el.style.display === "none" || !el.style.display) ? "block" : "none";
 }
 
+function toggleGrabKeyImage() {
+    let el = document.getElementById("grabKeyImageBox");
+    if (!el) return;
+    el.style.display = (el.style.display === "none" || !el.style.display) ? "block" : "none";
+}
+
 // --- Media storage (photos/clips) — IndexedDB, since clips can be a few MB
 // and localStorage's ~5MB string limit isn't a good fit for that. ---
 const TRICK_DB_NAME = "stellaTrickMedia";
@@ -203,24 +209,12 @@ async function handleTrickUpload(id, inputEl) {
     renderGrabsScreen();
 }
 
-async function handleKeyImageUpload(grabId, inputEl) {
-    let files = inputEl.files;
-    if (!files || files.length === 0) return;
-
-    for (let file of files) {
-        await saveTrickMedia("key_" + grabId, file);
-    }
-    inputEl.value = "";
-    fillAllKeyImages();
-}
-
-// Deletes one media item (photo/clip/key image) and re-renders whichever screen owns it.
+// Deletes one media item (photo/clip) and re-renders whichever screen owns it.
 async function deleteMediaAndRefresh(mediaId, refreshKind) {
     if (!confirm("Delete this photo/clip?")) return;
     await deleteTrickMedia(mediaId);
     if (refreshKind === "tricks") renderTricksScreen();
     else if (refreshKind === "grabs") renderGrabsScreen();
-    else if (refreshKind === "key") fillAllKeyImages();
 }
 
 // --- Fullscreen lightbox for photos/clips ---
@@ -275,15 +269,6 @@ async function fillTrickMediaThumbs(items, progress, refreshKind) {
     }
 }
 
-async function fillAllKeyImages() {
-    for (let grab of WAKEBOARD_GRABS) {
-        let mediaEl = document.getElementById(`keyMedia-${grab.id}`);
-        if (!mediaEl) continue;
-        let media = await getTrickMediaForId("key_" + grab.id);
-        mediaEl.innerHTML = media.length ? mediaThumbsHtml(media, "key") : `<p class="grabKeyImagePlaceholder">No photo yet</p>`;
-    }
-}
-
 // --- Rendering: Tricks screen ---
 async function renderTricksScreen() {
     let container = document.getElementById("tricksList");
@@ -307,126 +292,4 @@ async function renderTricksScreen() {
         let tricksInCategory = WAKEBOARD_TRICKS.filter(t => t.category === category);
         if (tricksInCategory.length === 0) continue;
 
-        html += `<h3 class="trickCategoryTitle">${category}</h3>`;
-        for (let trick of tricksInCategory) {
-            let entry = progress[trick.id];
-            let checked = !!(entry && entry.checked);
-            let dateVal = (entry && entry.checkedDate) ? entry.checkedDate : todayISO();
-
-            html += `<div class="trickRow ${checked ? "trickDone" : ""}">`;
-            html += `<div class="trickRowTop" onclick="toggleTrick('${trick.id}')">`;
-            html += `<span class="trickCheckbox">${checked ? "✅" : "⬜"}</span>`;
-            html += `<span class="trickName">${trick.name}</span>`;
-            html += `</div>`;
-
-            if (checked) {
-                html += `<div class="trickDateRow">`;
-                html += `<label>Landed on</label>`;
-                html += `<input type="date" class="trickDateInput" value="${dateVal}" onclick="event.stopPropagation()" onchange="setTrickDate('${trick.id}', this.value)">`;
-                html += `</div>`;
-                html += `<div class="trickMedia" id="trickMedia-${trick.id}">Loading clips...</div>`;
-                html += `<label class="trickUploadBtn">📸 Add photo/clip`;
-                html += `<input type="file" accept="image/*,video/*" multiple style="display:none" onchange="handleTrickUpload('${trick.id}', this)">`;
-                html += `</label>`;
-            }
-
-            html += `</div>`;
-        }
-    }
-
-    container.innerHTML = html;
-    await fillTrickMediaThumbs(WAKEBOARD_TRICKS, progress, "tricks");
-}
-
-// --- Rendering: Grabs screen ---
-async function renderGrabsScreen() {
-    let container = document.getElementById("grabsList");
-    if (!container) return;
-
-    let progress = getTrickProgress();
-    let done = WAKEBOARD_GRABS.filter(g => progress[g.id] && progress[g.id].checked).length;
-
-    let summaryEl = document.getElementById("grabsSummary");
-    if (summaryEl) {
-        summaryEl.innerHTML = `${done} grabs landed`;
-    }
-
-    renderGrabKeyBox();
-
-    let html = "";
-    for (let grab of WAKEBOARD_GRABS) {
-        let entry = progress[grab.id];
-        let checked = !!(entry && entry.checked);
-        let wakeToWake = !!(entry && entry.wakeToWake);
-        let dateVal = (entry && entry.checkedDate) ? entry.checkedDate : todayISO();
-
-        html += `<div class="trickRow ${checked ? "trickDone" : ""}">`;
-        html += `<div class="trickRowTop" onclick="toggleTrick('${grab.id}')">`;
-        html += `<span class="trickCheckbox">${checked ? "✅" : "⬜"}</span>`;
-        html += `<span class="trickName">${grab.name}</span>`;
-        html += `</div>`;
-
-        html += `<div class="wakeToWakeRow" onclick="event.stopPropagation(); toggleWakeToWake('${grab.id}')">`;
-        html += `<span class="trickCheckbox">${wakeToWake ? "✅" : "⬜"}</span>`;
-        html += `<span class="wakeToWakeLabel">🌊 Landed Wake to Wake</span>`;
-        html += `</div>`;
-
-        if (checked) {
-            html += `<div class="trickDateRow">`;
-            html += `<label>Landed on</label>`;
-            html += `<input type="date" class="trickDateInput" value="${dateVal}" onclick="event.stopPropagation()" onchange="setTrickDate('${grab.id}', this.value)">`;
-            html += `</div>`;
-            html += `<div class="trickMedia" id="trickMedia-${grab.id}">Loading clips...</div>`;
-            html += `<label class="trickUploadBtn">📸 Add photo/clip`;
-            html += `<input type="file" accept="image/*,video/*" multiple style="display:none" onchange="handleTrickUpload('${grab.id}', this)">`;
-            html += `</label>`;
-        }
-
-        html += `</div>`;
-    }
-
-    container.innerHTML = html;
-    await fillTrickMediaThumbs(WAKEBOARD_GRABS, progress, "grabs");
-}
-
-// Builds the grab key list (written description + photo area) once, then fills in images.
-function renderGrabKeyBox() {
-    let keyBox = document.getElementById("grabKeyBox");
-    if (!keyBox) return;
-
-    if (!keyBox.dataset.filled) {
-        let keyHtml = "";
-        for (let g of GRAB_KEY) {
-            let grabId = "g_" + g.name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
-            keyHtml += `<div class="grabKeyRow">`;
-            keyHtml += `<div class="grabKeyName">${g.name}</div>`;
-            keyHtml += `<div class="grabKeySectionLabel">Grab Key</div>`;
-            keyHtml += `<div class="grabKeyDesc">${g.key}</div>`;
-            keyHtml += `<div class="grabKeySectionLabel">Grab Key Image</div>`;
-            keyHtml += `<div class="grabKeyImageArea" id="keyMedia-${grabId}">Loading...</div>`;
-            keyHtml += `<label class="trickUploadBtn">📸 Add grab key photo`;
-            keyHtml += `<input type="file" accept="image/*,video/*" multiple style="display:none" onchange="handleKeyImageUpload('${grabId}', this)">`;
-            keyHtml += `</label>`;
-            keyHtml += `</div>`;
-        }
-        keyBox.innerHTML = keyHtml;
-        keyBox.dataset.filled = "1";
-    }
-
-    fillAllKeyImages();
-}
-
-// --- Subview toggle (Tricks vs Grabs) ---
-function showTrickSubview(which) {
-    let tricksBox = document.getElementById("tricksSubview");
-    let grabsBox = document.getElementById("grabsSubview");
-    if (tricksBox) tricksBox.style.display = which === "tricks" ? "block" : "none";
-    if (grabsBox) grabsBox.style.display = which === "grabs" ? "block" : "none";
-
-    document.querySelectorAll(".trickSubviewBtn").forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.subview === which);
-    });
-
-    if (which === "tricks") renderTricksScreen();
-    if (which === "grabs") renderGrabsScreen();
-}
+        html += `<h3 class="trickCategoryTitle">${category}
