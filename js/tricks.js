@@ -8,31 +8,88 @@ function slugify(str) {
 
 // Tricks only — grab names live exclusively on the Grabs screen now.
 const TRICK_CATEGORY_SOURCE = {
-    "Start Here": [
-        "Ollie", "Surface 180", "Surface 360", "Wake Jump", "Wake to Wake",
-        "Toeside Wake to Wake", "Wake to Wake 180", "Toeside Wake to Wake 180",
-        "Half Cab", "Switch 180", "Toeside 180", "Ollie 180", "Ollie 360",
-        "Jump 180", "Jump 360"
-    ],
-    "Next Up": [
-        "S-Mobe", "Toeside Ollie", "Toeside Jump"
-    ],
-    "Progressing Further": [
-        "Switch Wake to Wake", "Switch Wake to Wake 180", "Switch Wake to Wake 360",
-        "Blind Judge", "Backside 180", "Frontside 180", "Backside 360",
-        "Frontside 360", "Heelside 360", "Toeside 360", "Raley", "TS Raley",
-        "Backroll", "Tantrum", "Krypt", "Mobius", "Crow Mobe", "S-Bend",
-        "Pete Rose", "Wrapped Backside 180", "Wrapped Frontside 180"
-    ],
-    "Bigger Tricks": [
-        "Crow Mobe 540", "Mobe", "Mobe 540", "Tantrum to Blind",
-        "Backroll to Blind", "Krypt to Blind", "Raley to Blind", "Roll to Blind",
-        "Scarecrow", "Backside 540", "Frontside 540", "Switch Backside 180",
-        "Switch Frontside 180", "Switch Backside 360", "Switch Frontside 360",
-        "Toeside Backroll", "Toeside Frontroll", "KGB", "Whirlybird",
-        "Switch Mobe", "Switch Mobe 540", "Heelside Backside 720",
-        "Toeside Backside 720"
-    ]
+ "Start Here": [
+    "Deep Water Start",
+    "Ride Switch",
+    "Surface 180",
+    "Surface 360",
+    "Ollie",
+    "Heelside Wake Jump",
+    "Toeside Wake Jump",
+    "Wake to Wake",
+    "Toeside Wake to Wake",
+    "Heelside Frontside 180",
+    "Toeside Frontside 180",
+    "Heelside Backside 180",
+    "Toeside Backside 180",
+    "Half Cab",
+    "Switch Wake to Wake",
+    "Heelside Frontside 360",
+    "Toeside Frontside 360",
+    "Heelside Backside 360",
+    "Toeside Backside 360"
+],
+
+"Next Up": [
+    "Toeside Backroll",
+    "Tantrum",
+    "Heelside Backroll",
+    "Scarecrow",
+    "Raley",
+    "Krypt",
+    "Toeside Frontroll",
+    "Front Flip",
+    "Heelside Frontside 540",
+    "Toeside Frontside 540",
+    "Heelside Backside 540",
+    "Toeside Backside 540",
+    "Switch 180",
+    "Switch 360",
+    "Wrapped Frontside 180",
+    "Wrapped Backside 180",
+    "Whirlybird",
+    "Roll to Revert"
+],
+
+"Progressing Further": [
+    "Mobe",
+    "Moby Dick",
+    "Crow Mobe",
+    "KGB",
+    "Pete Rose",
+    "Slim Chance",
+    "S-Bend",
+    "Dum Dum",
+    "Blind Judge",
+    "Tantrum to Blind",
+    "Backroll to Blind",
+    "Raley to Blind",
+    "Switch Mobe",
+    "Switch Mobe 540",
+    "Heelside Frontside 720",
+    "Toeside Frontside 720",
+    "Heelside Backside 720",
+    "Toeside Backside 720"
+],
+
+"Bigger Tricks": [
+    "Crow Mobe 540",
+    "Mobe 540",
+    "Pete Rose 540",
+    "Whirly 540",
+    "Double Up 720",
+    "Double Up 900",
+    "900",
+    "1080",
+    "Double Tantrum",
+    "Double Backroll",
+    "Double Half Cab Roll",
+    "Double KGB",
+    "Double Flip",
+    "Crow 720",
+    "Pete 720",
+    "Double Flip Variations"
+]
 };
 
 const TRICKS_CATEGORY_ORDER = ["Start Here", "Next Up", "Progressing Further", "Bigger Tricks"];
