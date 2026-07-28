@@ -157,6 +157,12 @@
 </div>
 <!-- /screen-tricks -->
 
+<div id="mediaLightbox" class="mediaLightbox" onclick="closeLightbox()">
+<button class="mediaLightboxClose" onclick="closeLightbox()">✕</button>
+<div id="mediaLightboxContent" class="mediaLightboxContent" onclick="event.stopPropagation()"></div>
+</div>
+<!-- /mediaLightbox -->
+
 <div class="bottomNav">
 <button class="navBtn active" data-screen="screen-report" onclick="showScreen('screen-report')">🌊 Report</button>
 <button class="navBtn" data-screen="screen-tricks" onclick="showScreen('screen-tricks')">🏄 Tricks</button>
